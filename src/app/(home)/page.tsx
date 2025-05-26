@@ -1,8 +1,13 @@
+import { ChaImage } from "@/components/ChaImage";
+import { ChaPostCard } from "@/components/ChaPostCard";
+import { getPosts } from "@/lib/posts.data";
 import { homeSource } from "@/lib/source";
 import { getMDXComponents } from "@/mdx-components";
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "fumadocs-core/framework";
 import { notFound } from "next/navigation";
+import { LuLink } from "react-icons/lu";
+
+const posts = getPosts({ featuredFirst: false });
 
 export default function HomePage() {
   const page = homeSource.getPage([]);
@@ -27,9 +32,8 @@ export default function HomePage() {
 
       <div>
         {page.data.image && (
-          <Image
-            src={page.data.image}
-            alt="profile"
+          <ChaImage
+            image={page.data.image}
             width={300}
             height={300}
             className="block w-[60%] max-w-[300px] mx-auto mb-6 rounded-md md:float-right md:w-[30%] md:ml-6 md:mb-4 object-cover"
@@ -43,16 +47,47 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="prose">
-        <div></div>
-        <h2>
-          <Link href="/news">News</Link>
-        </h2>
-        <h2>
-          <Link href="/posts">Latest Posts</Link>
-        </h2>
-        <div></div>
-      </div>
+      {page.data.news && (
+        <div>
+          <div className="prose">
+            <div></div>
+            <h2 className="inline-flex items-center gap-3">
+              News
+              <Link href="/news">
+                <LuLink />
+              </Link>
+            </h2>
+            <div></div>
+          </div>
+        </div>
+      )}
+
+      {page.data.posts && posts.length > 0 && (
+        <div>
+          <div className="prose">
+            <div></div>
+            <h2 className="inline-flex items-center gap-3">
+              Latest Posts
+              <Link href="/posts">
+                <LuLink />
+              </Link>
+            </h2>
+            <div></div>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            {posts.slice(0, 3).map((post) => (
+              <ChaPostCard
+                key={post.url}
+                url={post.url}
+                date={post.date}
+                readingTime={post.readingTime}
+                {...post.data}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

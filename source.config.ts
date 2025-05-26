@@ -3,6 +3,17 @@ import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import { z } from "zod";
 
+const z_image = () =>
+  z.union([
+    z.string(),
+    z.object({ src: z.string(), alt: z.string().default("") }),
+    z.object({
+      light: z.string(),
+      dark: z.string(),
+      alt: z.string().default(""),
+    }),
+  ]);
+
 const baseSchema = {
   title: z.string(),
   description: z.string().optional(),
@@ -20,7 +31,9 @@ export const home = defineCollections({
     z.object({
       ...baseSchema,
       page: z.literal("home"),
-      image: z.string().optional(),
+      image: z_image().optional(),
+      news: z.union([z.boolean(), z.number().positive()]).default(3),
+      posts: z.union([z.boolean(), z.number().positive()]).default(3),
     }),
     z.object({
       ...baseSchema,
@@ -44,9 +57,10 @@ export const posts = defineCollections({
   dir: "content/posts",
   schema: z.object({
     ...baseDocSchema,
-    image: z.string().optional(),
+    image: z_image().optional(),
     tags: z.array(z.string()),
-    featured: z.boolean().optional(),
+    featured: z.boolean().default(false),
+    href: z.string().url().optional(),
   }),
 });
 

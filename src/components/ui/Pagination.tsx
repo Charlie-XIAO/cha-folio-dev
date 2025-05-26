@@ -2,7 +2,7 @@ import { ComponentProps, forwardRef } from "react";
 import { LuChevronLeft, LuChevronRight, LuEllipsis } from "react-icons/lu";
 import { cn } from "fumadocs-ui/utils/cn";
 import { ButtonProps, buttonVariants } from "./Button";
-import Link from "next/link";
+import { Link } from "fumadocs-core/framework";
 
 const Pagination = ({ className, ...props }: ComponentProps<"nav">) => (
   <nav

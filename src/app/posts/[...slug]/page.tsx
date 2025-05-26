@@ -9,6 +9,8 @@ import { notFound } from "next/navigation";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import { getMDXComponents } from "@/mdx-components";
 import { ChaFooter } from "@/components/ChaFooter";
+import { Callout } from "fumadocs-ui/components/callout";
+import { Link } from "fumadocs-core/framework";
 
 export default async function Page(props: {
   params: Promise<{ slug: string[] }>;
@@ -30,6 +32,20 @@ export default async function Page(props: {
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
+        {page.data.href && (
+          <Callout>
+            <p>Please visit the following link for the post:</p>
+            <p>
+              <Link
+                href={page.data.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {page.data.href}
+              </Link>
+            </p>
+          </Callout>
+        )}
         <MDXContent
           components={getMDXComponents({
             a: createRelativeLink(postsSource, page),

@@ -1,33 +1,19 @@
-import { homeSource, postsSource } from "@/lib/source";
+import { homeSource } from "@/lib/source";
 import { notFound } from "next/navigation";
-import { Card } from "fumadocs-ui/components/card";
 import { ChaPagination } from "@/components/ChaPagination";
+import { ChaPostCard } from "@/components/ChaPostCard";
+import { ChaPostFilters } from "@/components/ChaPostFilters";
+import { getPosts, getPostsMeta } from "@/lib/posts.data";
 
-type PostData = ReturnType<typeof postsSource.getPages>[number] & {
-  date: Date;
-};
-
-const posts = postsSource.getPages().reduce((acc, page) => {
-  if (page.slugs.length !== 1) {
-    return acc;
-  }
-  const fullSlug = page.slugs[0];
-  const match = fullSlug.match(/^(\d{4})-(\d{2})-(\d{2})-(.+)$/);
-  if (!match) {
-    return acc;
-  }
-
-  const [, YYYY, MM, DD, slug] = match;
-  acc.push({
-    date: new Date(Number(YYYY), Number(MM) - 1, Number(DD)),
-    ...page,
-  });
-
-  return acc;
-}, [] as PostData[]);
+const { tags, years, numPosts } = getPostsMeta();
 
 export default async function Page(props: {
-  searchParams?: Promise<{ page?: string }>;
+  searchParams?: Promise<{
+    page?: string;
+    tag?: string;
+    year?: string;
+    order?: "desc" | "asc";
+  }>;
 }) {
   const page = homeSource.getPage(["posts"]);
   if (!page) notFound();
@@ -40,12 +26,20 @@ export default async function Page(props: {
 
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams?.page) || 1;
-  const pageSize = 2;
-  const totalPages = Math.ceil(posts.length / pageSize);
+  const currentTag = searchParams?.tag;
+  const currentYear = Number(searchParams?.year) || undefined;
+  const currentOrder = searchParams?.order || "desc";
 
+  const posts = getPosts({
+    tag: currentTag,
+    year: currentYear,
+    order: currentOrder,
+  });
+
+  const pageSize = 5;
+  const totalPages = Math.ceil(posts.length / pageSize);
   const start = (currentPage - 1) * pageSize;
   const end = start + pageSize;
-  const paginatedPosts = posts.slice(start, end);
 
   return (
     <div className="w-full max-w-[960px] mx-auto px-4 py-12">
@@ -56,28 +50,36 @@ export default async function Page(props: {
         {page.data.description}
       </p>
 
-      <div className="flex flex-col gap-4">
+      <ChaPostFilters tags={tags} years={years} />
+
+      <div className="flex flex-col gap-4 mt-8">
         <div className="text-fd-muted-foreground text-sm mb-2">
-          Showing {start + 1}~{Math.min(end, posts.length)} of all{" "}
-          {posts.length} posts
+          {posts.length === 0 ? (
+            <>No posts</>
+          ) : (
+            <>
+              Showing {start + 1}~{Math.min(end, posts.length)} of{" "}
+              {currentTag === undefined && currentYear === undefined
+                ? `all ${numPosts} posts`
+                : `${posts.length}/${numPosts} filtered posts`}
+            </>
+          )}
         </div>
-        {paginatedPosts.map((post) => (
-          <Card title={post.data.title} href={post.url} key={post.url}>
-            <div className="flex flex-col gap-1 w-full sm:flex-row sm:gap-4 sm:justify-between">
-              <span>{post.data.description}</span>
-              <span>
-                {post.date.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                })}
-              </span>
-            </div>
-          </Card>
+
+        {posts.slice(start, end).map((post) => (
+          <ChaPostCard
+            key={post.url}
+            url={post.url}
+            date={post.date}
+            readingTime={post.readingTime}
+            {...post.data}
+          />
         ))}
       </div>
 
-      <ChaPagination count={totalPages} className="mt-8" />
+      {posts.length > pageSize && (
+        <ChaPagination count={totalPages} className="mt-8" />
+      )}
     </div>
   );
 }
