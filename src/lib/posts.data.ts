@@ -40,7 +40,7 @@ export const getPosts = ({
   year,
   order = "desc",
   featuredFirst = true,
-}: GetPostsParams) => {
+}: GetPostsParams = {}) => {
   let finalPosts = posts;
 
   if (tag !== undefined) {
