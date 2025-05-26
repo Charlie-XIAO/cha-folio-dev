@@ -1,3 +1,10 @@
 @import "tailwindcss";
-@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/vitepress.css";
 @import "fumadocs-ui/css/preset.css";
+
+@layer utilities {
+  /* VitePress-style inline code */
+  .prose code {
+    @apply text-sm px-1.5 rounded-sm;
+  }
+}

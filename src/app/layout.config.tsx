@@ -1,28 +1,39 @@
-import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
+import { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
+import Image from "next/image";
+import { FaBlog } from "react-icons/fa6";
 
-/**
- * Shared layout configurations
- *
- * you can customise layouts individually from:
- * Home Layout: app/(home)/layout.tsx
- * Docs Layout: app/docs/layout.tsx
- */
 export const baseOptions: BaseLayoutProps = {
+  githubUrl: "https://github.com/Charlie-XIAO/cha-folio",
   nav: {
     title: (
-      <>
-        <svg
-          width="24"
-          height="24"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-label="Logo"
-        >
-          <circle cx={12} cy={12} r={12} fill="currentColor" />
-        </svg>
-        My App
-      </>
+      <span className="inline-flex items-center gap-3">
+        <Image
+          src="/images/logo-light.png"
+          alt="avatar"
+          width={30}
+          height={30}
+          className="rounded-full block dark:hidden"
+        />
+        <Image
+          src="/images/logo-dark.png"
+          alt="avatar"
+          width={30}
+          height={30}
+          className="rounded-full hidden dark:block"
+        />
+        <span>cha-folio</span>
+      </span>
     ),
   },
-  // see https://fumadocs.dev/docs/ui/navigation/links
-  links: [],
+  links: [
+    {
+      icon: <FaBlog />,
+      text: "Blog",
+      url: "/posts",
+      active: "nested-url",
+    },
+  ],
+  themeSwitch: {
+    mode: "light-dark",
+  },
 };
