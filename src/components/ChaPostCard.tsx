@@ -38,7 +38,7 @@ export const ChaPostCard = ({
       : { href, target: "_blank", rel: "noopener noreferrer" };
 
   return (
-    <article className="relative flex w-full overflow-hidden rounded-md border bg-fd-card text-fd-card-foreground shadow-md transition-colors hover:bg-fd-accent/80">
+    <article className="relative flex w-full overflow-hidden rounded-md border bg-fd-background/80 shadow-md transition-colors hover:bg-fd-accent/80">
       <Link {...linkProps} className="block w-full">
         {featured && (
           <div

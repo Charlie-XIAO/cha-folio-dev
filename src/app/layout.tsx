@@ -1,6 +1,7 @@
 import { RootProvider } from "fumadocs-ui/provider";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ChaScrollToTop } from "@/components/ChaScrollToTop";
 import { ReactNode } from "react";
 import "./global.css";
 import "katex/dist/katex.css";
@@ -11,7 +12,10 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
-        <RootProvider>{children}</RootProvider>
+        <RootProvider>
+          {children}
+          <ChaScrollToTop />
+        </RootProvider>
       </body>
     </html>
   );

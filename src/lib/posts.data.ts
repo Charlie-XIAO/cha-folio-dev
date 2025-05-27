@@ -1,31 +1,46 @@
 import readingTime from "reading-time";
 import { postsSource } from "./source";
 
-type PostData = ReturnType<typeof postsSource.getPages>[number] & {
+export type PostPageData = ReturnType<typeof postsSource.getPage>;
+
+export interface PostComputedData {
   date: Date;
+  wordCount: number;
   readingTime: string;
-};
+}
 
-const posts: PostData[] = [];
+export type PostData = PostPageData & PostComputedData;
 
-for (const page of postsSource.getPages()) {
-  if (page.slugs.length !== 1) {
-    continue;
+export const computePost = (
+  page: PostPageData,
+): PostComputedData | undefined => {
+  if (page?.slugs.length !== 1) {
+    return;
   }
   const fullSlug = page.slugs[0];
   const match = fullSlug.match(/^(\d{4})-(\d{2})-(\d{2})-(.+)$/);
   if (!match) {
-    continue;
+    return;
   }
 
   const [, YYYY, MM, DD] = match;
   const date = new Date(Number(YYYY), Number(MM) - 1, Number(DD));
   const readingTimeStats = readingTime(page.data.content);
-  posts.push({
-    ...page,
+
+  return {
     date,
+    wordCount: readingTimeStats.words,
     readingTime: readingTimeStats.text,
-  });
+  };
+};
+
+const posts: PostData[] = [];
+
+for (const page of postsSource.getPages()) {
+  const computedData = computePost(page);
+  if (computedData !== undefined) {
+    posts.push({ ...page, ...computedData });
+  }
 }
 
 interface GetPostsParams {

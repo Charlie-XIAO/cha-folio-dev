@@ -12,6 +12,8 @@ import { ChaFooter } from "@/components/ChaFooter";
 import { Callout } from "fumadocs-ui/components/callout";
 import { Link } from "fumadocs-core/framework";
 import { ChaGiscus } from "@/components/ChaGiscus";
+import { ChaPostFrontmatter } from "@/components/ChaPostFrontmatter";
+import { computePost } from "@/lib/posts.data";
 
 export default async function Page(props: {
   params: Promise<{ slug: string[] }>;
@@ -21,6 +23,7 @@ export default async function Page(props: {
   if (!page) notFound();
 
   const MDXContent = page.data.body;
+  const computedData = computePost(page);
 
   return (
     <DocsPage
@@ -32,6 +35,17 @@ export default async function Page(props: {
     >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
+
+      {page.data.href === undefined && computedData !== undefined && (
+        <ChaPostFrontmatter
+          className="mb-8"
+          date={computedData.date}
+          tags={page.data.tags}
+          wordCount={computedData.wordCount}
+          readingTime={computedData.readingTime}
+        />
+      )}
+
       <DocsBody>
         {page.data.href ? (
           <Callout>
