@@ -47,7 +47,7 @@ export const ChaPostCard = ({
           />
         )}
 
-        <div className="flex w-full justify-between px-6 py-4 gap-6">
+        <div className="flex flex-col-reverse w-full px-6 py-4 gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
           <div className="flex flex-col flex-grow">
             <h2 className="text-lg font-semibold mb-1">{title}</h2>
             {description && (
@@ -71,14 +71,12 @@ export const ChaPostCard = ({
           </div>
 
           {image && (
-            <div className="flex-shrink-0">
-              <ChaImage
-                image={image}
-                width={300}
-                height={300}
-                className="h-30 w-auto object-cover rounded-md"
-              />
-            </div>
+            <ChaImage
+              image={image}
+              width={300}
+              height={300}
+              className="w-[100%] sm:w-[20%] max-h-32 h-auto object-cover rounded-md"
+            />
           )}
         </div>
       </Link>

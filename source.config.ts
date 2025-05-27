@@ -61,6 +61,7 @@ export const posts = defineCollections({
     tags: z.array(z.string()),
     featured: z.boolean().default(false),
     href: z.string().url().optional(),
+    giscus: z.boolean().default(false),
   }),
 });
 

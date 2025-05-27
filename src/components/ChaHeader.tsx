@@ -99,7 +99,7 @@ export const ChaHeader = ({
         ) : null}
       </div>
 
-      <ul className="flex flex-row items-center">
+      <ul className="flex flex-row items-center gap-1.5 ml-1.5">
         {navItems.filter(isSecondary).map((item, i) => (
           <ChaNavbarLinkItem
             key={i}

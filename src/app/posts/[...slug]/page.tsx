@@ -11,6 +11,7 @@ import { getMDXComponents } from "@/mdx-components";
 import { ChaFooter } from "@/components/ChaFooter";
 import { Callout } from "fumadocs-ui/components/callout";
 import { Link } from "fumadocs-core/framework";
+import { ChaGiscus } from "@/components/ChaGiscus";
 
 export default async function Page(props: {
   params: Promise<{ slug: string[] }>;
@@ -32,7 +33,7 @@ export default async function Page(props: {
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
-        {page.data.href && (
+        {page.data.href ? (
           <Callout>
             <p>Please visit the following link for the post:</p>
             <p>
@@ -45,13 +46,17 @@ export default async function Page(props: {
               </Link>
             </p>
           </Callout>
+        ) : (
+          <MDXContent
+            components={getMDXComponents({
+              a: createRelativeLink(postsSource, page),
+            })}
+          />
         )}
-        <MDXContent
-          components={getMDXComponents({
-            a: createRelativeLink(postsSource, page),
-          })}
-        />
       </DocsBody>
+      <div className="mt-10">
+        <ChaGiscus />
+      </div>
     </DocsPage>
   );
 }
