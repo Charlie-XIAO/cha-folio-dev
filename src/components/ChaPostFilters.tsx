@@ -37,41 +37,45 @@ export const ChaPostFilters = ({ tags, years }: ChaPostFiltersProps) => {
 
   return (
     <div className="inline-flex items-center flex-wrap gap-2">
-      {Object.entries(tags).map(([tag, count]) => (
-        <Link
-          key={tag}
-          href={createUrl("tag", currentTag === tag ? null : tag)}
-          title={
-            currentTag === tag ? "Remove tag filter" : `Filter by tag: ${tag}`
-          }
-          className={cn(
-            buttonVariants({ variant: "outline" }),
-            currentTag === tag && "border-fd-primary",
-          )}
-        >
-          <LuTag /> {tag} ({count})
-        </Link>
-      ))}
+      {Object.entries(tags)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([tag, count]) => (
+          <Link
+            key={tag}
+            href={createUrl("tag", currentTag === tag ? null : tag)}
+            title={
+              currentTag === tag ? "Remove tag filter" : `Filter by tag: ${tag}`
+            }
+            className={cn(
+              buttonVariants({ variant: "outline" }),
+              currentTag === tag && "border-fd-primary",
+            )}
+          >
+            <LuTag /> {tag} ({count})
+          </Link>
+        ))}
 
       <FaGripLinesVertical className="text-fd-muted-foreground" />
 
-      {Object.entries(years).map(([year, count]) => (
-        <Link
-          key={year}
-          href={createUrl("year", currentYear === year ? null : year)}
-          title={
-            currentYear === year
-              ? "Remove year filter"
-              : `Filter by year: ${year}`
-          }
-          className={cn(
-            buttonVariants({ variant: "outline" }),
-            currentYear === year && "border-fd-primary",
-          )}
-        >
-          <LuCalendar /> {year} ({count})
-        </Link>
-      ))}
+      {Object.entries(years)
+        .sort(([a], [b]) => Number(b) - Number(a))
+        .map(([year, count]) => (
+          <Link
+            key={year}
+            href={createUrl("year", currentYear === year ? null : year)}
+            title={
+              currentYear === year
+                ? "Remove year filter"
+                : `Filter by year: ${year}`
+            }
+            className={cn(
+              buttonVariants({ variant: "outline" }),
+              currentYear === year && "border-fd-primary",
+            )}
+          >
+            <LuCalendar /> {year} ({count})
+          </Link>
+        ))}
 
       <FaGripLinesVertical className="text-fd-muted-foreground" />
 

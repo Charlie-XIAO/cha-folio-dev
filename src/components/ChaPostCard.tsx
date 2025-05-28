@@ -73,8 +73,8 @@ export const ChaPostCard = ({
           {image && (
             <ChaImage
               image={image}
-              width={300}
-              height={300}
+              width={600}
+              height={600}
               className="w-[100%] sm:w-[20%] max-h-32 h-auto object-cover rounded-md"
             />
           )}

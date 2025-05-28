@@ -1,7 +1,7 @@
 import { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { FaBlog } from "react-icons/fa6";
 import { ChaImage } from "@/components/ChaImage";
-import { LuRss } from "react-icons/lu";
+import { LuFolderOpen, LuRss } from "react-icons/lu";
 
 export const baseOptions: BaseLayoutProps = {
   githubUrl: "https://github.com/Charlie-XIAO/cha-folio",
@@ -27,6 +27,12 @@ export const baseOptions: BaseLayoutProps = {
       icon: <FaBlog />,
       text: "Blog",
       url: "/posts",
+      active: "nested-url",
+    },
+    {
+      icon: <LuFolderOpen />,
+      text: "Projects",
+      url: "/projects",
       active: "nested-url",
     },
     {

@@ -10,7 +10,7 @@ export const ChaScrollToTop = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsVisible(window.scrollY > window.innerHeight / 3);
+      setIsVisible(window.scrollY > 0);
     };
     window.addEventListener("scroll", handleScroll);
     handleScroll();

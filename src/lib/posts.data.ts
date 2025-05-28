@@ -1,7 +1,7 @@
 import readingTime from "reading-time";
 import { postsSource } from "./source";
 
-export type PostPageData = ReturnType<typeof postsSource.getPage>;
+export type PostPageData = NonNullable<ReturnType<typeof postsSource.getPage>>;
 
 export interface PostComputedData {
   date: Date;

@@ -1,7 +1,7 @@
 import { defineConfig, defineCollections } from "fumadocs-mdx/config";
+import { z } from "zod";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
-import { z } from "zod";
 
 const z_image = () =>
   z.union([
@@ -32,8 +32,8 @@ export const home = defineCollections({
       ...baseSchema,
       page: z.literal("home"),
       image: z_image().optional(),
-      news: z.union([z.boolean(), z.number().positive()]).default(3),
-      posts: z.union([z.boolean(), z.number().positive()]).default(3),
+      news: z.union([z.boolean(), z.number().int().positive()]).default(3),
+      posts: z.union([z.boolean(), z.number().int().positive()]).default(3),
     }),
     z.object({
       ...baseSchema,
@@ -42,6 +42,11 @@ export const home = defineCollections({
     z.object({
       ...baseSchema,
       page: z.literal("posts"),
+    }),
+    z.object({
+      ...baseSchema,
+      page: z.literal("projects"),
+      categories: z.array(z.string()).optional(),
     }),
   ]),
 });
@@ -62,6 +67,18 @@ export const posts = defineCollections({
     featured: z.boolean().default(false),
     href: z.string().url().optional(),
     giscus: z.boolean().default(false),
+  }),
+});
+
+export const projects = defineCollections({
+  type: "doc",
+  dir: "content/projects",
+  schema: z.object({
+    ...baseDocSchema,
+    image: z_image().optional(),
+    category: z.string(),
+    importance: z.number().int().default(Number.MAX_SAFE_INTEGER),
+    href: z.string().url().optional(),
   }),
 });
 

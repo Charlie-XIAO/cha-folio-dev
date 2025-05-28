@@ -34,8 +34,8 @@ export default function HomePage() {
         {page.data.image && (
           <ChaImage
             image={page.data.image}
-            width={300}
-            height={300}
+            width={600}
+            height={600}
             className="block w-[60%] max-w-[300px] mx-auto mb-6 rounded-md md:float-right md:w-[30%] md:ml-6 md:mb-4 object-cover"
           />
         )}

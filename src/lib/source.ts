@@ -1,4 +1,4 @@
-import { posts, news, home } from "@/.source";
+import { posts, news, home, projects } from "@/.source";
 import { loader } from "fumadocs-core/source";
 import { createMDXSource } from "fumadocs-mdx";
 
@@ -15,4 +15,9 @@ export const newsSource = loader({
 export const postsSource = loader({
   baseUrl: "/posts",
   source: createMDXSource(posts),
+});
+
+export const projectsSource = loader({
+  baseUrl: "/projects",
+  source: createMDXSource(projects),
 });
