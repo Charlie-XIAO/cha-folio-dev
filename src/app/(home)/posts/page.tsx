@@ -52,30 +52,31 @@ export default async function Page(props: {
 
       <ChaPostFilters tags={tags} years={years} />
 
-      <div className="flex flex-col gap-4 mt-8">
-        <div className="text-fd-muted-foreground text-sm mb-2">
-          {posts.length === 0 ? (
-            <>No posts</>
-          ) : (
-            <>
-              Showing {start + 1}~{Math.min(end, posts.length)} of{" "}
-              {currentTag === undefined && currentYear === undefined
-                ? `all ${numPosts} posts`
-                : `${posts.length}/${numPosts} filtered posts`}
-            </>
-          )}
-        </div>
-
-        {posts.slice(start, end).map((post) => (
-          <ChaPostCard
-            key={post.url}
-            url={post.url}
-            date={post.date}
-            readingTime={post.readingTime}
-            {...post.data}
-          />
-        ))}
+      <div className="text-fd-muted-foreground text-sm mt-10 mb-4">
+        {posts.length === 0 ? (
+          <>No posts</>
+        ) : (
+          <>
+            Showing {start + 1}~{Math.min(end, posts.length)} of{" "}
+            {currentTag === undefined && currentYear === undefined
+              ? `all ${numPosts} posts`
+              : `${posts.length}/${numPosts} filtered posts`}
+          </>
+        )}
       </div>
+
+      <ul className="flex flex-col gap-4">
+        {posts.slice(start, end).map((post) => (
+          <li key={post.url} className="w-full">
+            <ChaPostCard
+              url={post.url}
+              date={post.date}
+              readingTime={post.readingTime}
+              {...post.data}
+            />
+          </li>
+        ))}
+      </ul>
 
       {posts.length > pageSize && (
         <ChaPagination count={totalPages} className="mt-8" />

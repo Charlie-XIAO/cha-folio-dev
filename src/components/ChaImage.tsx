@@ -1,13 +1,13 @@
-import { Image, ImageProps } from "fumadocs-core/framework";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { cn } from "fumadocs-ui/utils/cn";
+import Image, { ImageProps } from "next/image";
 
 export type ChaImageDef =
   | string
   | { src: string; alt: string }
   | { light: string; dark: string; alt: string };
 
-export interface ChaImageProps extends ImageProps {
+export interface ChaImageProps extends Omit<ImageProps, "src" | "alt"> {
   image: ChaImageDef;
   zoomable?: boolean;
 }

@@ -1,7 +1,7 @@
-import { Link } from "fumadocs-core/framework";
 import { ChaImage, ChaImageDef } from "./ChaImage";
 import { LuDot, LuTag, LuExternalLink } from "react-icons/lu";
 import { Fragment } from "react";
+import Link from "fumadocs-core/link";
 
 interface ChaPostCardProps {
   title: string;
@@ -29,17 +29,12 @@ export const ChaPostCard = ({
   const formattedDate = date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
-    day: "2-digit",
+    day: "numeric",
   });
-
-  const linkProps =
-    href === undefined
-      ? { href: url }
-      : { href, target: "_blank", rel: "noopener noreferrer" };
 
   return (
     <article className="relative flex w-full overflow-hidden rounded-md border bg-fd-background/80 shadow-md transition-colors hover:bg-fd-accent/80">
-      <Link {...linkProps} className="block w-full">
+      <Link href={href ?? url} className="block w-full relative">
         {featured && (
           <div
             className="absolute top-0 left-0 w-4 h-4 bg-fd-primary"
@@ -47,7 +42,7 @@ export const ChaPostCard = ({
           />
         )}
 
-        <div className="flex flex-col-reverse w-full px-6 py-4 gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+        <div className="flex flex-col-reverse w-full px-6 py-4 gap-4 sm:flex-row sm:items-start sm:gap-6">
           <div className="flex flex-col flex-grow">
             <h2 className="text-lg font-semibold mb-1">{title}</h2>
             {description && (
@@ -75,10 +70,21 @@ export const ChaPostCard = ({
               image={image}
               width={600}
               height={600}
-              className="w-[100%] sm:w-[20%] max-h-32 h-auto object-cover rounded-md"
+              className="w-full max-h-36 object-cover rounded-md sm:hidden!"
             />
           )}
         </div>
+
+        {image && (
+          <div className="hidden sm:absolute sm:top-4 sm:bottom-4 sm:right-6 sm:flex sm:w-1/5 sm:items-center sm:justify-center">
+            <ChaImage
+              image={image}
+              width={600}
+              height={600}
+              className="max-h-full max-w-full object-cover rounded-md"
+            />
+          </div>
+        )}
       </Link>
     </article>
   );

@@ -1,13 +1,14 @@
 import { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { FaBlog } from "react-icons/fa6";
 import { ChaImage } from "@/components/ChaImage";
-import { LuFolderOpen, LuRss } from "react-icons/lu";
+import { LuBookOpen, LuFolderOpen, LuRss } from "react-icons/lu";
+import { RiGitRepositoryLine } from "react-icons/ri";
 
 export const baseOptions: BaseLayoutProps = {
   githubUrl: "https://github.com/Charlie-XIAO/cha-folio",
   nav: {
     title: (
-      <span className="inline-flex items-center gap-3">
+      <>
         <ChaImage
           image={{
             light: "/images/logo-light.png",
@@ -19,7 +20,7 @@ export const baseOptions: BaseLayoutProps = {
           className="rounded-full"
         />
         <span>cha-folio</span>
-      </span>
+      </>
     ),
   },
   links: [
@@ -34,6 +35,32 @@ export const baseOptions: BaseLayoutProps = {
       text: "Projects",
       url: "/projects",
       active: "nested-url",
+    },
+    {
+      icon: <LuBookOpen />,
+      text: "Publications",
+      url: "/publications",
+      active: "nested-url",
+    },
+    {
+      icon: <RiGitRepositoryLine />,
+      text: "Repositories",
+      url: "/repositories",
+      active: "nested-url",
+    },
+    {
+      type: "menu",
+      text: "CV",
+      items: [
+        {
+          text: "English",
+          url: "/pdf/blank.pdf",
+        },
+        {
+          text: "中文",
+          url: "/pdf/blank.pdf",
+        },
+      ],
     },
     {
       type: "icon",

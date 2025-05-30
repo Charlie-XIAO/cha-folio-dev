@@ -13,10 +13,13 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@citation-js/core": "^0.7.18",
+    "@citation-js/plugin-bibtex": "^0.7.18",
+    "@citation-js/plugin-csl": "^0.7.18",
     "@giscus/react": "^3.1.0",
     "@radix-ui/react-slot": "^1.2.3",
-    "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
+    "dompurify": "^3.2.6",
     "feed": "^5.0.1",
     "fumadocs-core": "^15.3.4",
     "fumadocs-mdx": "^11.6.5",
@@ -29,6 +32,7 @@
     "reading-time": "^1.5.0",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
+    "shiki": "^3.4.2",
     "zod": "^3.25.23"
   },
   "devDependencies": {

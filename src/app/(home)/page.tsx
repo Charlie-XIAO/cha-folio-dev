@@ -3,13 +3,15 @@ import { ChaPostCard } from "@/components/ChaPostCard";
 import { getPosts } from "@/lib/posts.data";
 import { homeSource } from "@/lib/source";
 import { getMDXComponents } from "@/mdx-components";
-import { Link } from "fumadocs-core/framework";
 import { notFound } from "next/navigation";
 import { LuLink } from "react-icons/lu";
+import Link from "fumadocs-core/link";
+import { getPublications } from "@/lib/publications.data";
+import { ChaPublicationItem } from "@/components/ChaPublicationItem";
 
 const posts = getPosts({ featuredFirst: false });
 
-export default function HomePage() {
+export default async function HomePage() {
   const page = homeSource.getPage([]);
   if (!page) notFound();
 
@@ -20,6 +22,7 @@ export default function HomePage() {
   }
 
   const MDXContent = page.data.body;
+  const publications = await getPublications({ selectedOnly: true });
 
   return (
     <div className="w-full max-w-[960px] mx-auto px-4 py-12">
@@ -53,7 +56,7 @@ export default function HomePage() {
             <div></div>
             <h2 className="inline-flex items-center gap-3">
               News
-              <Link href="/news">
+              <Link href="/news" title="View all news">
                 <LuLink />
               </Link>
             </h2>
@@ -68,24 +71,48 @@ export default function HomePage() {
             <div></div>
             <h2 className="inline-flex items-center gap-3">
               Latest Posts
-              <Link href="/posts">
+              <Link href="/posts" title="View all posts">
                 <LuLink />
               </Link>
             </h2>
             <div></div>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <ul className="flex flex-col gap-4">
             {posts.slice(0, 3).map((post) => (
-              <ChaPostCard
-                key={post.url}
-                url={post.url}
-                date={post.date}
-                readingTime={post.readingTime}
-                {...post.data}
-              />
+              <li key={post.url} className="w-full">
+                <ChaPostCard
+                  url={post.url}
+                  date={post.date}
+                  readingTime={post.readingTime}
+                  {...post.data}
+                />
+              </li>
             ))}
+          </ul>
+        </div>
+      )}
+
+      {page.data.publications && (
+        <div>
+          <div className="prose">
+            <div></div>
+            <h2 className="inline-flex items-center gap-3">
+              Selected Publications
+              <Link href="/publications" title="View all publications">
+                <LuLink />
+              </Link>
+            </h2>
+            <div></div>
           </div>
+
+          <ul className="border-t">
+            {publications.map((pub) => (
+              <li key={pub.url} className="w-full py-6 px-2 border-b">
+                <ChaPublicationItem {...pub} />
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

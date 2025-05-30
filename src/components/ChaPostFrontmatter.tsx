@@ -1,7 +1,7 @@
-import { Link } from "fumadocs-core/framework";
 import { cn } from "fumadocs-ui/utils/cn";
 import { Fragment, HTMLAttributes } from "react";
 import { LuCalendar, LuDot, LuFileText, LuTag } from "react-icons/lu";
+import Link from "fumadocs-core/link";
 
 interface ChaPostFrontmatterProps extends HTMLAttributes<HTMLDivElement> {
   date: Date;
@@ -32,7 +32,7 @@ export const ChaPostFrontmatter = ({
           {date.toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
-            day: "2-digit",
+            day: "numeric",
           })}
         </Link>
       </p>

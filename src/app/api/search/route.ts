@@ -1,10 +1,16 @@
-import { homeSource, newsSource, postsSource } from "@/lib/source";
+import {
+  homeSource,
+  newsSource,
+  postsSource,
+  projectsSource,
+} from "@/lib/source";
 import { createSearchAPI } from "fumadocs-core/search/server";
 
 const pages = [
   ...homeSource.getPages(),
   ...newsSource.getPages(),
   ...postsSource.getPages(),
+  ...projectsSource.getPages(),
 ];
 
 export const { GET } = createSearchAPI("advanced", {

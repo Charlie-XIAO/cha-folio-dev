@@ -9,11 +9,10 @@ import { notFound } from "next/navigation";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import { getMDXComponents } from "@/mdx-components";
 import { ChaFooter } from "@/components/ChaFooter";
-import { Callout } from "fumadocs-ui/components/callout";
-import { Link } from "fumadocs-core/framework";
 import { ChaGiscus } from "@/components/ChaGiscus";
 import { ChaPostFrontmatter } from "@/components/ChaPostFrontmatter";
 import { computePost } from "@/lib/posts.data";
+import { ChaExternalCallout } from "@/components/ChaExternalCallout";
 
 export default async function Page(props: {
   params: Promise<{ slug: string[] }>;
@@ -48,18 +47,7 @@ export default async function Page(props: {
 
       <DocsBody>
         {page.data.href ? (
-          <Callout>
-            <p>Please visit the following link for the post:</p>
-            <p>
-              <Link
-                href={page.data.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {page.data.href}
-              </Link>
-            </p>
-          </Callout>
+          <ChaExternalCallout pageType="post" href={page.data.href} />
         ) : (
           <MDXContent
             components={getMDXComponents({
@@ -67,10 +55,11 @@ export default async function Page(props: {
             })}
           />
         )}
+
+        <div className="mt-10">
+          <ChaGiscus />
+        </div>
       </DocsBody>
-      <div className="mt-10">
-        <ChaGiscus />
-      </div>
     </DocsPage>
   );
 }

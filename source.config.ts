@@ -34,6 +34,7 @@ export const home = defineCollections({
       image: z_image().optional(),
       news: z.union([z.boolean(), z.number().int().positive()]).default(3),
       posts: z.union([z.boolean(), z.number().int().positive()]).default(3),
+      publications: z.boolean().default(true),
     }),
     z.object({
       ...baseSchema,
@@ -47,6 +48,20 @@ export const home = defineCollections({
       ...baseSchema,
       page: z.literal("projects"),
       categories: z.array(z.string()).optional(),
+    }),
+    z.object({
+      ...baseSchema,
+      page: z.literal("publications"),
+    }),
+    z.object({
+      ...baseSchema,
+      page: z.literal("repositories"),
+      username: z.string(),
+      repositories: z.array(z.string()),
+    }),
+    z.object({
+      ...baseSchema,
+      page: z.literal("common"),
     }),
   ]),
 });

@@ -27,7 +27,7 @@ export const ChaNavbar = (props: HTMLAttributes<HTMLElement>) => {
         id="nd-nav"
         {...props}
         className={cn(
-          "fixed top-(--fd-banner-height) z-1000 box-content backdrop-blur-lg -translate-x-1/2 border-b transition-colors",
+          "fixed top-(--fd-banner-height) z-40 box-content backdrop-blur-lg -translate-x-1/2 border-b transition-colors",
           value.length > 0 ? "shadow-lg" : "shadow-sm",
           (!isTransparent || value.length > 0) && "bg-fd-background/80",
           props.className,

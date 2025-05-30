@@ -2,7 +2,7 @@ import { ChaGalleryCard } from "@/components/ChaGalleryCard";
 import { homeSource } from "@/lib/source";
 import { notFound } from "next/navigation";
 import { getProjects } from "@/lib/projects.data";
-import { Link } from "fumadocs-core/framework";
+import Link from "fumadocs-core/link";
 
 export default async function Page() {
   const page = homeSource.getPage(["projects"]);
@@ -24,15 +24,13 @@ export default async function Page() {
       </p>
 
       {page.data.categories === undefined ? (
-        <div className="grid grid-cols-3 gap-4">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {getProjects().map((project) => (
-            <ChaGalleryCard
-              key={project.data.title}
-              url={project.url}
-              {...project.data}
-            />
+            <li key={project.url}>
+              <ChaGalleryCard url={project.url} {...project.data} />
+            </li>
           ))}
-        </div>
+        </ul>
       ) : (
         page.data.categories.map((category) => {
           const categoryId = encodeURIComponent(category);
@@ -43,15 +41,13 @@ export default async function Page() {
                   {category}
                 </Link>
               </h2>
-              <div className="grid grid-cols-3 gap-4">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {getProjects({ category }).map((project) => (
-                  <ChaGalleryCard
-                    key={project.data.title}
-                    url={project.url}
-                    {...project.data}
-                  />
+                  <li key={project.url}>
+                    <ChaGalleryCard url={project.url} {...project.data} />
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           );
         })

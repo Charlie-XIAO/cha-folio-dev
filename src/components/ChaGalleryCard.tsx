@@ -1,6 +1,6 @@
-import { Link } from "fumadocs-core/framework";
 import { ChaImage, ChaImageDef } from "./ChaImage";
-import { LuExternalLink, LuLink } from "react-icons/lu";
+import { LuExternalLink } from "react-icons/lu";
+import Link from "fumadocs-core/link";
 
 interface ChaGalleryCardProps {
   title: string;
@@ -17,14 +17,9 @@ export const ChaGalleryCard = ({
   href,
   url,
 }: ChaGalleryCardProps) => {
-  const linkProps =
-    href === undefined
-      ? { href: url }
-      : { href, target: "_blank", rel: "noopener noreferrer" };
-
   return (
     <div className="rounded-md border bg-fd-background/80 shadow-md transition-colors hover:bg-fd-accent/80 overflow-hidden">
-      <Link {...linkProps} className="block w-full">
+      <Link href={href ?? url} className="block w-full">
         {image && (
           <div className="w-full h-36 bg-gray-100">
             <ChaImage

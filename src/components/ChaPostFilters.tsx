@@ -1,6 +1,5 @@
 "use client";
 
-import { Link } from "fumadocs-core/framework";
 import { usePathname, useSearchParams } from "next/navigation";
 import { buttonVariants } from "./ui/Button";
 import {
@@ -11,6 +10,7 @@ import {
 } from "react-icons/lu";
 import { cn } from "fumadocs-ui/utils/cn";
 import { FaGripLinesVertical } from "react-icons/fa6";
+import Link from "fumadocs-core/link";
 
 interface ChaPostFiltersProps {
   tags: Record<string, number>;
