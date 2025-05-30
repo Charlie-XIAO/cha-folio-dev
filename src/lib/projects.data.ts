@@ -11,3 +11,11 @@ export function getProjects({ category }: GetProjectsParams = {}) {
   }
   return projects.sort((a, b) => a.data.importance - b.data.importance);
 }
+
+export function getProjectsMeta() {
+  const allCategories = projectsSource
+    .getPages()
+    .map((project) => project.data.category);
+  const categories = Array.from(new Set(allCategories)).sort();
+  return { categories };
+}

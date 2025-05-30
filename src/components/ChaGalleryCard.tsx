@@ -1,6 +1,7 @@
-import { ChaImage, ChaImageDef } from "./ChaImage";
+import { ChaImage } from "./ChaImage";
 import { LuExternalLink } from "react-icons/lu";
 import Link from "fumadocs-core/link";
+import { ChaImageDef } from "@/types";
 
 export interface ChaGalleryCardProps {
   title: string;

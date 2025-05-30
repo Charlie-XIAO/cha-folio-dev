@@ -1,11 +1,7 @@
+import { ChaImageDef } from "@/types";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { cn } from "fumadocs-ui/utils/cn";
 import Image, { ImageProps } from "next/image";
-
-export type ChaImageDef =
-  | string
-  | { src: string; alt: string }
-  | { light: string; dark: string; alt: string };
 
 export interface ChaImageProps extends Omit<ImageProps, "src" | "alt"> {
   image: ChaImageDef;
@@ -20,7 +16,7 @@ export function ChaImage({ image, zoomable = false, ...props }: ChaImageProps) {
   }
 
   if ("src" in image) {
-    return <ImageComponent src={image.src} alt={image.alt} {...props} />;
+    return <ImageComponent src={image.src} alt={image.alt ?? ""} {...props} />;
   }
 
   if ("light" in image && "dark" in image) {
@@ -29,13 +25,13 @@ export function ChaImage({ image, zoomable = false, ...props }: ChaImageProps) {
       <>
         <ImageComponent
           src={image.light}
-          alt={image.alt}
+          alt={image.alt ?? ""}
           className={cn("block dark:hidden", className)}
           {...restProps}
         />
         <ImageComponent
           src={image.dark}
-          alt={image.alt}
+          alt={image.alt ?? ""}
           className={cn("hidden dark:block", className)}
           {...restProps}
         />

@@ -1,5 +1,6 @@
 import { getPosts } from "@/lib/posts.data";
 import { Feed } from "feed";
+import config from "@/cha-folio.config";
 
 export const dynamic = "force-static";
 
@@ -9,15 +10,14 @@ export function GET() {
   );
 
   const feed = new Feed({
-    title: "cha-folio",
-    description: "A Fumadocs theme for portfolio websites",
-    copyright: "Yao Xiao",
+    title: String(config.metadata.title),
+    description: config.metadata.description ?? undefined,
+    copyright: config.copyright ?? config.name,
     id: baseUrl.href,
     link: baseUrl.href,
     feed: new URL("/api/feed.xml", baseUrl).href,
     language: "en-US",
     updated: new Date(),
-    favicon: new URL("/images/logo-light.png", baseUrl).href,
   });
 
   const posts = getPosts();
@@ -32,12 +32,7 @@ export function GET() {
       description: post.data.description,
       link: new URL(post.url, baseUrl).href,
       date: post.date,
-      author: [
-        {
-          name: "Yao Xiao",
-          link: "https://charlie-xiao.github.io/",
-        },
-      ],
+      author: [{ name: config.name, link: baseUrl.href }],
     });
   }
 

@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ChaScrollToTop } from "@/components/ChaScrollToTop";
 import { ReactNode } from "react";
+import config from "@/cha-folio.config";
 import "./global.css";
 import "katex/dist/katex.css";
 
@@ -21,21 +22,4 @@ export default function Layout({ children }: { children: ReactNode }) {
   );
 }
 
-export const metadata: Metadata = {
-  title: "cha-folio",
-  description: "A Fumadocs theme for portfolio websites",
-  icons: {
-    icon: [
-      {
-        media: "(perfer-color-scheme: light)",
-        type: "image/png",
-        url: "/images/logo-light.png",
-      },
-      {
-        media: "(prefers-color-scheme: dark)",
-        type: "image/png",
-        url: "/images/logo-dark.png",
-      },
-    ],
-  },
-};
+export const metadata = config.metadata;

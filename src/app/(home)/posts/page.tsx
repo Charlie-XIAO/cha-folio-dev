@@ -1,9 +1,11 @@
-import { homeSource } from "@/lib/source";
-import { notFound } from "next/navigation";
 import { ChaPagination } from "@/components/ChaPagination";
 import { ChaPostCard } from "@/components/ChaPostCard";
 import { ChaPostFilters } from "@/components/ChaPostFilters";
 import { getPosts, getPostsMeta } from "@/lib/posts.data";
+import config from "@/cha-folio.config";
+import { nodeInnerText } from "@/lib/utils";
+
+const { title = "Blog", description } = config.pages?.posts ?? {};
 
 const { tags, years, numPosts } = getPostsMeta();
 
@@ -15,15 +17,6 @@ export default async function Page(props: {
     order?: "desc" | "asc";
   }>;
 }) {
-  const page = homeSource.getPage(["posts"]);
-  if (!page) notFound();
-
-  if (page.data.page !== "posts") {
-    throw new Error(
-      `Expected "page: posts" in frontmatter, got "${page.data.page}" instead`,
-    );
-  }
-
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams?.page) || 1;
   const currentTag = searchParams?.tag;
@@ -43,12 +36,8 @@ export default async function Page(props: {
 
   return (
     <div className="w-full max-w-[960px] mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-fd-primary mb-2">
-        {page.data.title}
-      </h1>
-      <p className="text-lg text-fd-muted-foreground mb-8">
-        {page.data.description}
-      </p>
+      <h1 className="text-4xl font-bold text-fd-primary mb-2">{title}</h1>
+      <p className="text-lg text-fd-muted-foreground mb-8">{description}</p>
 
       <ChaPostFilters tags={tags} years={years} />
 
@@ -86,17 +75,8 @@ export default async function Page(props: {
 }
 
 export async function generateMetadata() {
-  const page = homeSource.getPage(["posts"]);
-  if (!page) notFound();
-
-  if (page.data.page !== "posts") {
-    throw new Error(
-      `Expected "page: posts" in frontmatter, got "${page.data.page}" instead`,
-    );
-  }
-
   return {
-    title: page.data.title,
-    description: page.data.description,
+    title: nodeInnerText(title),
+    description: nodeInnerText(description),
   };
 }

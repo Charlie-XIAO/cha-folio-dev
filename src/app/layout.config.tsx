@@ -3,23 +3,22 @@ import { FaBlog } from "react-icons/fa6";
 import { ChaImage } from "@/components/ChaImage";
 import { LuBookOpen, LuFolderOpen, LuRss } from "react-icons/lu";
 import { RiGitRepositoryLine } from "react-icons/ri";
+import config from "@/cha-folio.config";
 
 export const baseOptions: BaseLayoutProps = {
   githubUrl: "https://github.com/Charlie-XIAO/cha-folio",
   nav: {
     title: (
       <>
-        <ChaImage
-          image={{
-            light: "/images/logo-light.png",
-            dark: "/images/logo-dark.png",
-            alt: "avatar",
-          }}
-          width={30}
-          height={30}
-          className="rounded-full"
-        />
-        <span>cha-folio</span>
+        {config.avatar && (
+          <ChaImage
+            image={config.avatar}
+            width={30}
+            height={30}
+            className="rounded-full"
+          />
+        )}
+        <span>{config.name}</span>
       </>
     ),
   },

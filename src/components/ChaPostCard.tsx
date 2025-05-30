@@ -1,4 +1,5 @@
-import { ChaImage, ChaImageDef } from "./ChaImage";
+import { ChaImage } from "./ChaImage";
+import { ChaImageDef } from "@/types";
 import { LuDot, LuTag, LuExternalLink } from "react-icons/lu";
 import { Fragment } from "react";
 import Link from "fumadocs-core/link";

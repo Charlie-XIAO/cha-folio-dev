@@ -1,30 +1,30 @@
 import { ChaGalleryCard } from "@/components/ChaGalleryCard";
-import { homeSource } from "@/lib/source";
-import { notFound } from "next/navigation";
-import { getProjects } from "@/lib/projects.data";
+import { getProjects, getProjectsMeta } from "@/lib/projects.data";
 import Link from "fumadocs-core/link";
 import { LuLink } from "react-icons/lu";
+import config from "@/cha-folio.config";
+import { nodeInnerText } from "@/lib/utils";
+
+const {
+  title = "Projects",
+  description,
+  groupByCategories = true,
+} = config.pages?.projects ?? {};
 
 export default async function Page() {
-  const page = homeSource.getPage(["projects"]);
-  if (!page) notFound();
-
-  if (page.data.page !== "projects") {
-    throw new Error(
-      `Expected "page: projects" in frontmatter, got "${page.data.page}" instead`,
-    );
+  let categories: string[] | undefined;
+  if (typeof groupByCategories === "boolean") {
+    categories = groupByCategories ? getProjectsMeta().categories : undefined;
+  } else {
+    categories = groupByCategories;
   }
 
   return (
     <div className="w-full max-w-[960px] mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-fd-primary mb-2">
-        {page.data.title}
-      </h1>
-      <p className="text-lg text-fd-muted-foreground mb-8">
-        {page.data.description}
-      </p>
+      <h1 className="text-4xl font-bold text-fd-primary mb-2">{title}</h1>
+      <p className="text-lg text-fd-muted-foreground mb-8">{description}</p>
 
-      {page.data.categories === undefined ? (
+      {categories === undefined ? (
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {getProjects().map((project) => (
             <li key={project.url}>
@@ -33,7 +33,7 @@ export default async function Page() {
           ))}
         </ul>
       ) : (
-        page.data.categories.map((category) => {
+        categories.map((category) => {
           const categoryId = encodeURIComponent(category);
           return (
             <div key={category} className="mb-8">
@@ -62,17 +62,8 @@ export default async function Page() {
 }
 
 export async function generateMetadata() {
-  const page = homeSource.getPage(["projects"]);
-  if (!page) notFound();
-
-  if (page.data.page !== "projects") {
-    throw new Error(
-      `Expected "page: projects" in frontmatter, got "${page.data.page}" instead`,
-    );
-  }
-
   return {
-    title: page.data.title,
-    description: page.data.description,
+    title: nodeInnerText(title),
+    description: nodeInnerText(description),
   };
 }

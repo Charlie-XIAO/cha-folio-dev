@@ -1,22 +1,19 @@
 "use client";
 
 import Giscus from "@giscus/react";
+import config from "@/cha-folio.config";
+import { HTMLAttributes } from "react";
 
-export function ChaGiscus() {
+export interface ChaGiscusProps extends HTMLAttributes<HTMLDivElement> {}
+
+export function ChaGiscus(props: ChaGiscusProps) {
+  if (config.giscus === undefined) {
+    return null;
+  }
+
   return (
-    <Giscus
-      repo="Charlie-XIAO/cha-folio"
-      repoId="R_kgDOOw-AuQ"
-      category="Comments"
-      categoryId="DIC_kwDOOw-Auc4CqnKk"
-      mapping="title"
-      strict="1"
-      reactionsEnabled="1"
-      emitMetadata="0"
-      inputPosition="top"
-      theme="preferred_color_scheme"
-      lang="en"
-      loading="lazy"
-    />
+    <div {...props}>
+      <Giscus {...config.giscus} />
+    </div>
   );
 }

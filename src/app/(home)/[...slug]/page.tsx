@@ -10,12 +10,6 @@ export default async function Page(props: {
   const page = homeSource.getPage(params.slug);
   if (!page) notFound();
 
-  if (page.data.page !== "common") {
-    throw new Error(
-      `Expected "page: common" in frontmatter, got "${page.data.page}" instead`,
-    );
-  }
-
   const MDXContent = page.data.body;
 
   return (
@@ -48,12 +42,6 @@ export async function generateMetadata(props: {
   const params = await props.params;
   const page = homeSource.getPage(params.slug);
   if (!page) notFound();
-
-  if (page.data.page !== "common") {
-    throw new Error(
-      `Expected "page: common" in frontmatter, got "${page.data.page}" instead`,
-    );
-  }
 
   return {
     title: page.data.title,

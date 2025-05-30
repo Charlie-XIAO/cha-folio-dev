@@ -56,9 +56,7 @@ export default async function Page(props: {
           />
         )}
 
-        <div className="mt-10">
-          <ChaGiscus />
-        </div>
+        <ChaGiscus className="mt-10" />
       </DocsBody>
     </DocsPage>
   );

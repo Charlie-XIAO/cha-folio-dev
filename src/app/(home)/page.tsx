@@ -8,35 +8,42 @@ import { LuLink } from "react-icons/lu";
 import Link from "fumadocs-core/link";
 import { getPublications } from "@/lib/publications.data";
 import { ChaPublicationItem } from "@/components/ChaPublicationItem";
+import config from "@/cha-folio.config";
+import { nodeInnerText } from "@/lib/utils";
 
-const posts = getPosts({ featuredFirst: false });
+const {
+  title,
+  description,
+  image,
+  showNews = 3,
+  showPosts = 3,
+  showPublications = true,
+} = config.pages?.home ?? {};
+
+const posts = showPosts ? getPosts({ featuredFirst: false }) : [];
+const publications = showPublications
+  ? getPublications({ selectedOnly: true })
+  : [];
 
 export default async function HomePage() {
   const page = homeSource.getPage([]);
   if (!page) notFound();
 
-  if (page.data.page !== "home") {
-    throw new Error(
-      `Expected "page: home" in frontmatter, got "${page.data.page}" instead`,
-    );
-  }
-
   const MDXContent = page.data.body;
-  const publications = await getPublications({ selectedOnly: true });
+  const finalTitle = page.data.title || title || config.name;
+  const finalDescription = page.data.description || description;
 
   return (
     <div className="w-full max-w-[960px] mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-fd-primary mb-2">
-        {page.data.title}
-      </h1>
+      <h1 className="text-4xl font-bold text-fd-primary mb-2">{finalTitle}</h1>
       <p className="text-lg text-fd-muted-foreground mb-8">
-        {page.data.description}
+        {finalDescription}
       </p>
 
       <div>
-        {page.data.image && (
+        {image && (
           <ChaImage
-            image={page.data.image}
+            image={image}
             width={600}
             height={600}
             className="block w-[60%] max-w-[300px] mx-auto mb-6 rounded-md md:float-right md:w-[30%] md:ml-6 md:mb-4 object-cover"
@@ -50,7 +57,7 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {page.data.news && (
+      {showNews && (
         <div>
           <div className="prose">
             <div></div>
@@ -65,7 +72,7 @@ export default async function HomePage() {
         </div>
       )}
 
-      {page.data.posts && posts.length > 0 && (
+      {showPosts && posts.length > 0 && (
         <div>
           <div className="prose">
             <div></div>
@@ -93,7 +100,7 @@ export default async function HomePage() {
         </div>
       )}
 
-      {page.data.publications && (
+      {showPublications && publications.length > 0 && (
         <div>
           <div className="prose">
             <div></div>
@@ -123,14 +130,11 @@ export async function generateMetadata() {
   const page = homeSource.getPage([]);
   if (!page) notFound();
 
-  if (page.data.page !== "home") {
-    throw new Error(
-      `Expected "page: home" in frontmatter, got "${page.data.page}" instead`,
-    );
-  }
+  const finalTitle = page.data.title || title || config.name;
+  const finalDescription = page.data.description || description;
 
   return {
-    title: page.data.title,
-    description: page.data.description,
+    title: nodeInnerText(finalTitle),
+    description: nodeInnerText(finalDescription),
   };
 }
