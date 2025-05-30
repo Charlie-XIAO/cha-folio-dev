@@ -10,18 +10,18 @@ import { cn } from "fumadocs-ui/utils/cn";
 import { HTMLAttributes, useMemo } from "react";
 import { ChaHeader } from "./ChaHeader";
 
-interface ChaDocsLayoutProps extends BaseLayoutProps {
+export interface ChaDocsLayoutProps extends BaseLayoutProps {
   tree: PageTree.Root;
   containerProps?: HTMLAttributes<HTMLDivElement>;
 }
 
-export const ChaDocsLayout = ({
+export function ChaDocsLayout({
   nav = {},
   i18n = false,
   links,
   githubUrl,
   ...props
-}: ChaDocsLayoutProps) => {
+}: ChaDocsLayoutProps) {
   const finalLinks = useMemo(
     () => getLinks(links ?? [], githubUrl),
     [links, githubUrl],
@@ -53,4 +53,4 @@ export const ChaDocsLayout = ({
       </main>
     </TreeContextProvider>
   );
-};
+}

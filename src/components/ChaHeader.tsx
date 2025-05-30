@@ -36,14 +36,14 @@ import {
   NavbarMenuTrigger,
 } from "fumadocs-ui/layouts/home/navbar";
 
-export const ChaHeader = ({
+export function ChaHeader({
   nav = {},
   i18n = false,
   links,
   githubUrl,
   themeSwitch,
   searchToggle,
-}: HomeLayoutProps) => {
+}: HomeLayoutProps) {
   const finalLinks = useMemo(
     () => getLinks(links, githubUrl),
     [links, githubUrl],
@@ -140,7 +140,7 @@ export const ChaHeader = ({
       </ul>
     </ChaNavbar>
   );
-};
+}
 
 function ChaNavbarLinkItem({
   item,
@@ -207,8 +207,8 @@ function ChaNavbarLinkItem({
   );
 }
 
-const isSecondary = (item: LinkItemType): boolean => {
+function isSecondary(item: LinkItemType) {
   return (
     ("secondary" in item && item.secondary === true) || item.type === "icon"
   );
-};
+}

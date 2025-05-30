@@ -3,7 +3,7 @@ import { LuDot, LuTag, LuExternalLink } from "react-icons/lu";
 import { Fragment } from "react";
 import Link from "fumadocs-core/link";
 
-interface ChaPostCardProps {
+export interface ChaPostCardProps {
   title: string;
   description?: string;
   image?: ChaImageDef;
@@ -15,7 +15,7 @@ interface ChaPostCardProps {
   readingTime: string;
 }
 
-export const ChaPostCard = ({
+export function ChaPostCard({
   title,
   description,
   image,
@@ -25,7 +25,7 @@ export const ChaPostCard = ({
   url,
   date,
   readingTime,
-}: ChaPostCardProps) => {
+}: ChaPostCardProps) {
   const formattedDate = date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -88,4 +88,4 @@ export const ChaPostCard = ({
       </Link>
     </article>
   );
-};
+}

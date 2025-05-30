@@ -1,18 +1,19 @@
 import { Cite, plugins } from "@citation-js/core";
 import "@citation-js/plugin-csl";
 import "@citation-js/plugin-bibtex";
-import { promises as fs } from "fs";
-import path from "path";
+import template from "../data/ieee-cha-folio.csl";
+import bib from "../data/publications.bib";
 
 export interface Publication {
   citationKey: string;
   title: string;
   authors: string[];
-  date?: { year: number; repr: string };
+  dateInfo: { year: number; repr: string };
   details: string;
   bib: string;
   abstract?: string;
   bibtexShow?: boolean;
+  badge?: string;
   url?: string;
   pdf?: string;
   code?: string;
@@ -20,7 +21,7 @@ export interface Publication {
   selected?: boolean;
 }
 
-const getAuthors = (entry: any): Publication["authors"] => {
+function extractAuthors(entry: any): Publication["authors"] {
   const authors: string[] = [];
   if (entry.data[0].author !== undefined) {
     for (const author of entry.data[0].author) {
@@ -34,12 +35,12 @@ const getAuthors = (entry: any): Publication["authors"] => {
     }
   }
   return authors;
-};
+}
 
-const getDate = (entry: any): Publication["date"] => {
+function extractDateInfo(entry: any): Publication["dateInfo"] {
   const dateParts = entry.data[0].issued?.["date-parts"];
   if (dateParts === undefined || dateParts.length === 0) {
-    return;
+    throw new Error("Invalid or missing date in publication entry");
   }
   const [parts] = dateParts;
   const [year, month, day] = parts;
@@ -67,9 +68,12 @@ const getDate = (entry: any): Publication["date"] => {
   const repr = date.toLocaleDateString("en-US", options);
 
   return { year, repr };
-};
+}
 
-const stringToBoolean = (value?: string | boolean): boolean | undefined => {
+function extractBoolean(value?: string | boolean): boolean | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
   if (typeof value === "boolean") {
     return value;
   }
@@ -81,77 +85,103 @@ const stringToBoolean = (value?: string | boolean): boolean | undefined => {
     if (cleanedValue === "false") {
       return false;
     }
+    throw new Error(
+      `Invalid boolean value: ${value}; expected "true" or "false"`,
+    );
   }
-};
+  throw new Error(
+    `Invalid type for boolean value: ${typeof value}; expected string or boolean`,
+  );
+}
+
+function extractString(
+  value?: string,
+  trim: boolean = false,
+): string | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+  if (typeof value !== "string") {
+    throw new Error(
+      `Invalid type for string value: ${typeof value}; expected string`,
+    );
+  }
+  return trim ? value.trim() : value;
+}
+
+function parseBibEntry(entry: any): Publication {
+  const entryCite = new Cite(entry);
+
+  const citationKey = entryCite.data[0]["citation-key"];
+  const title = entryCite.data[0].title || "Untitled";
+  const authors = extractAuthors(entryCite);
+  const dateInfo = extractDateInfo(entryCite);
+  const details = entryCite
+    .format("bibliography", {
+      format: "html",
+      template: "ieee-cha-folio",
+    })
+    .trim();
+  const bib = entryCite.format("bibtex", { format: "text" }).trim();
+
+  const abstract = extractString(entryCite.data[0].abstract, true);
+  const bibtexShow = extractBoolean(entry.properties?.["cha_bibtex_show"]);
+  const badge = extractString(entry.properties?.["cha_badge"], true);
+  const url = extractString(entry.properties?.["cha_url"]);
+  const pdf = extractString(entry.properties?.["cha_pdf"]);
+  const code = extractString(entry.properties?.["cha_code"]);
+  const video = extractString(entry.properties?.["cha_video"]);
+  const selected = extractBoolean(entry.properties?.["cha_selected"]);
+
+  return {
+    citationKey,
+    title,
+    authors,
+    dateInfo,
+    details,
+    bib,
+    abstract,
+    badge,
+    bibtexShow,
+    url,
+    pdf,
+    code,
+    video,
+    selected,
+  };
+}
+
+const config = plugins.config.get("@csl");
+config.templates.add("ieee-cha-folio", template);
+
+const cite = new Cite(bib, { target: "@biblatex/entries+list" });
+const publications: Publication[] = cite.data.map(parseBibEntry);
 
 export interface GetPublicationsParams {
   selectedOnly?: boolean;
+  year?: number;
 }
 
-export const getPublications = async ({
+export function getPublications({
   selectedOnly = false,
-}: GetPublicationsParams = {}): Promise<Publication[]> => {
-  console.debug("Loading publications...");
+  year,
+}: GetPublicationsParams = {}): Publication[] {
+  let finalPublications = publications;
+  if (selectedOnly) {
+    finalPublications = finalPublications.filter((pub) => pub.selected);
+  }
+  if (year !== undefined) {
+    finalPublications = finalPublications.filter(
+      (pub) => pub.dateInfo.year === year,
+    );
+  }
+  return finalPublications;
+}
 
-  const templateFile = path.join(
-    process.cwd(),
-    "content/_data/ieee-cha-folio.csl",
-  );
-  const template = await fs.readFile(templateFile, "utf-8");
-  const config = plugins.config.get("@csl");
-  config.templates.add("ieee-cha-folio", template);
-
-  const file = path.join(process.cwd(), "content/_data/publications.bib");
-  const content = await fs.readFile(file, "utf-8");
-  const cite = await Cite.async(content, { target: "@biblatex/entries+list" });
-
-  const publications: (Publication | undefined)[] = await Promise.all(
-    cite.data.map(async (entry: any) => {
-      const selected = stringToBoolean(entry.properties?.["cha_selected"]);
-      if (selectedOnly && !(selected ?? false)) {
-        return;
-      }
-
-      const entryCite = await Cite.async(entry);
-
-      const citationKey = entryCite.data[0]["citation-key"];
-      const title = entryCite.data[0].title || "Untitled";
-      const authors = getAuthors(entryCite);
-      const date = getDate(entryCite);
-      const details = entryCite
-        .format("bibliography", {
-          format: "html",
-          template: "ieee-cha-folio",
-        })
-        .trim();
-      const bib = entryCite.format("bibtex", { format: "text" }).trim();
-
-      const abstract = entryCite.data[0].abstract
-        ? entryCite.data[0].abstract.trim()
-        : undefined;
-      const bibtexShow = stringToBoolean(entry.properties?.["cha_bibtex_show"]);
-      const url = entry.properties?.["cha_url"];
-      const pdf = entry.properties?.["cha_pdf"];
-      const code = entry.properties?.["cha_code"];
-      const video = entry.properties?.["cha_video"];
-
-      return {
-        citationKey,
-        title,
-        authors,
-        date,
-        details,
-        bib,
-        abstract,
-        bibtexShow,
-        url,
-        pdf,
-        code,
-        video,
-        selected,
-      };
-    }),
-  );
-
-  return publications.filter((pub) => pub !== undefined);
-};
+export function getPublicationsMeta() {
+  const years: Record<number, number> = {};
+  for (const pub of publications) {
+    years[pub.dateInfo.year] = (years[pub.dateInfo.year] || 0) + 1;
+  }
+  return { years };
+}

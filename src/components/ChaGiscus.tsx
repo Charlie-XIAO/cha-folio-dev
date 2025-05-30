@@ -2,7 +2,7 @@
 
 import Giscus from "@giscus/react";
 
-export const ChaGiscus = () => {
+export function ChaGiscus() {
   return (
     <Giscus
       repo="Charlie-XIAO/cha-folio"
@@ -19,4 +19,4 @@ export const ChaGiscus = () => {
       loading="lazy"
     />
   );
-};
+}

@@ -108,7 +108,7 @@ export default async function HomePage() {
 
           <ul className="border-t">
             {publications.map((pub) => (
-              <li key={pub.url} className="w-full py-6 px-2 border-b">
+              <li key={pub.citationKey} className="w-full py-6 px-2 border-b">
                 <ChaPublicationItem {...pub} />
               </li>
             ))}

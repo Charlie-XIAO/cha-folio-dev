@@ -3,8 +3,8 @@ import { z } from "zod";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 
-const z_image = () =>
-  z.union([
+function z_image() {
+  return z.union([
     z.string(),
     z.object({ src: z.string(), alt: z.string().default("") }),
     z.object({
@@ -13,6 +13,7 @@ const z_image = () =>
       alt: z.string().default(""),
     }),
   ]);
+}
 
 const baseSchema = {
   title: z.string(),
@@ -52,6 +53,7 @@ export const home = defineCollections({
     z.object({
       ...baseSchema,
       page: z.literal("publications"),
+      years: z.boolean().default(false),
     }),
     z.object({
       ...baseSchema,

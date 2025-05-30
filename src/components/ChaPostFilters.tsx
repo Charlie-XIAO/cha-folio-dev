@@ -12,12 +12,12 @@ import { cn } from "fumadocs-ui/utils/cn";
 import { FaGripLinesVertical } from "react-icons/fa6";
 import Link from "fumadocs-core/link";
 
-interface ChaPostFiltersProps {
+export interface ChaPostFiltersProps {
   tags: Record<string, number>;
   years: Record<number, number>;
 }
 
-export const ChaPostFilters = ({ tags, years }: ChaPostFiltersProps) => {
+export function ChaPostFilters({ tags, years }: ChaPostFiltersProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentTag = searchParams.get("tag");
@@ -100,4 +100,4 @@ export const ChaPostFilters = ({ tags, years }: ChaPostFiltersProps) => {
       </Link>
     </div>
   );
-};
+}

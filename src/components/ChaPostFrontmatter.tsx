@@ -3,21 +3,22 @@ import { Fragment, HTMLAttributes } from "react";
 import { LuCalendar, LuDot, LuFileText, LuTag } from "react-icons/lu";
 import Link from "fumadocs-core/link";
 
-interface ChaPostFrontmatterProps extends HTMLAttributes<HTMLDivElement> {
+export interface ChaPostFrontmatterProps
+  extends HTMLAttributes<HTMLDivElement> {
   date: Date;
   tags: string[];
   wordCount: number;
   readingTime: string;
 }
 
-export const ChaPostFrontmatter = ({
+export function ChaPostFrontmatter({
   date,
   tags,
   wordCount,
   readingTime,
   className,
   ...props
-}: ChaPostFrontmatterProps) => {
+}: ChaPostFrontmatterProps) {
   return (
     <div
       className={cn("text-fd-muted-foreground text-sm", className)}
@@ -70,4 +71,4 @@ export const ChaPostFrontmatter = ({
       </p>
     </div>
   );
-};
+}

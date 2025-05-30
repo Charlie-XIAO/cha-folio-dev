@@ -32,8 +32,8 @@ const PaginationItem = forwardRef<HTMLLIElement, ComponentProps<"li">>(
 );
 PaginationItem.displayName = "PaginationItem";
 
-type PaginationLinkProps = { isActive?: boolean } & Pick<ButtonProps, "size"> &
-  ComponentProps<typeof Link>;
+export type PaginationLinkProps = Pick<ButtonProps, "size"> &
+  ComponentProps<typeof Link> & { isActive?: boolean };
 
 const PaginationLink = ({
   className,

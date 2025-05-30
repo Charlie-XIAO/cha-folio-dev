@@ -38,9 +38,9 @@ export default async function Page(props: {
   );
 }
 
-// export async function generateStaticParams() {
-//   return homeSource.generateParams();
-// }
+export async function generateStaticParams() {
+  return homeSource.generateParams();
+}
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string[] }>;

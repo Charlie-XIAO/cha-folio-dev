@@ -3,7 +3,7 @@ import { Feed } from "feed";
 
 export const dynamic = "force-static";
 
-export const GET = () => {
+export function GET() {
   const baseUrl = new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   );
@@ -46,4 +46,4 @@ export const GET = () => {
       "Content-Type": "application/xml",
     },
   });
-};
+}

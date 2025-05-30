@@ -64,18 +64,18 @@ function useChaPagination(
   ];
 }
 
-type ChaPaginationProps = ComponentProps<typeof Pagination> & {
+export type ChaPaginationProps = ComponentProps<typeof Pagination> & {
   count: number;
   boundaryCount?: number;
   siblingCount?: number;
 };
 
-export const ChaPagination = ({
+export function ChaPagination({
   count,
   boundaryCount,
   siblingCount,
   ...props
-}: ChaPaginationProps) => {
+}: ChaPaginationProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -126,4 +126,4 @@ export const ChaPagination = ({
       />
     </Pagination>
   );
-};
+}

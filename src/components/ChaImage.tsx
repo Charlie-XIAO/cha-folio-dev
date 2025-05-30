@@ -12,11 +12,7 @@ export interface ChaImageProps extends Omit<ImageProps, "src" | "alt"> {
   zoomable?: boolean;
 }
 
-export const ChaImage = ({
-  image,
-  zoomable = false,
-  ...props
-}: ChaImageProps) => {
+export function ChaImage({ image, zoomable = false, ...props }: ChaImageProps) {
   const ImageComponent = zoomable ? ImageZoom : Image;
 
   if (typeof image === "string") {
@@ -46,4 +42,4 @@ export const ChaImage = ({
       </>
     );
   }
-};
+}

@@ -21,22 +21,23 @@ export interface ChaPublicationItemProps
   extends Publication,
     Omit<HTMLAttributes<HTMLDivElement>, "title"> {}
 
-export const ChaPublicationItem = ({
+export function ChaPublicationItem({
   citationKey,
   title,
   authors,
-  date,
+  dateInfo,
   details,
   bib,
   abstract,
   bibtexShow = false,
+  badge,
   url,
   pdf,
   code,
   video,
   className,
   ...props
-}: ChaPublicationItemProps) => {
+}: ChaPublicationItemProps) {
   const itemId = `publication-${encodeURIComponent(citationKey)}`;
 
   const abstractRef = useRef<HTMLDivElement>(null);
@@ -78,19 +79,24 @@ export const ChaPublicationItem = ({
         <Link href={`#${itemId}`} className="peer font-semibold">
           {title}
         </Link>
-        {date && (
-          <span className="text-fd-muted-foreground">({date.repr})</span>
+        <span className="text-fd-muted-foreground">({dateInfo.repr})</span>
+        {badge && (
+          <span className="bg-fd-primary text-fd-primary-foreground text-xs font-semibold px-1.5 my-1 rounded-sm">
+            {badge}
+          </span>
         )}
         <LuLink
           size={14}
           className="shrink-0 text-fd-muted-foreground opacity-0 transition-opacity duration-300 peer-hover:opacity-100"
         />
       </h2>
-      <p className="mb-1">
-        {authors.map((author, index) => (
-          <span key={author}>{index === 0 ? author : `, ${author}`}</span>
-        ))}
-      </p>
+      {authors.length > 0 && (
+        <p className="mb-1">
+          {authors.map((author, index) => (
+            <span key={author}>{index === 0 ? author : `, ${author}`}</span>
+          ))}
+        </p>
+      )}
       <ChaSafeHtml className="text-fd-muted-foreground mb-1" html={details} />
       <div className="flex flex-wrap items-center gap-x-2">
         {abstract && (
@@ -189,4 +195,4 @@ export const ChaPublicationItem = ({
       )}
     </div>
   );
-};
+}

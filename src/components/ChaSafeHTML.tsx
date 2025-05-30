@@ -3,12 +3,12 @@
 import DOMPurify from "dompurify";
 import { HTMLAttributes, useEffect, useState } from "react";
 
-interface ChaSafeHtmlProps
+export interface ChaSafeHtmlProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "dangerouslySetInnerHTML"> {
   html: string;
 }
 
-export const ChaSafeHtml = ({ html, ...props }: ChaSafeHtmlProps) => {
+export function ChaSafeHtml({ html, ...props }: ChaSafeHtmlProps) {
   const [safeHtml, setSafeHtml] = useState("");
 
   useEffect(() => {
@@ -16,4 +16,4 @@ export const ChaSafeHtml = ({ html, ...props }: ChaSafeHtmlProps) => {
   }, [html]);
 
   return <div dangerouslySetInnerHTML={{ __html: safeHtml }} {...props} />;
-};
+}

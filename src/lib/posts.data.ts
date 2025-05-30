@@ -11,9 +11,15 @@ export interface PostComputedData {
 
 export type PostData = PostPageData & PostComputedData;
 
-export const computePost = (
-  page: PostPageData,
-): PostComputedData | undefined => {
+const posts = postsSource.getPages().reduce((acc, page) => {
+  const computedData = computePost(page);
+  if (computedData !== undefined) {
+    acc.push({ ...page, ...computedData });
+  }
+  return acc;
+}, [] as PostData[]);
+
+export function computePost(page: PostPageData): PostComputedData | undefined {
   if (page?.slugs.length !== 1) {
     return;
   }
@@ -32,30 +38,21 @@ export const computePost = (
     wordCount: readingTimeStats.words,
     readingTime: readingTimeStats.text,
   };
-};
-
-const posts: PostData[] = [];
-
-for (const page of postsSource.getPages()) {
-  const computedData = computePost(page);
-  if (computedData !== undefined) {
-    posts.push({ ...page, ...computedData });
-  }
 }
 
-interface GetPostsParams {
+export interface GetPostsParams {
   tag?: string;
   year?: number;
   order?: "desc" | "asc";
   featuredFirst?: boolean;
 }
 
-export const getPosts = ({
+export function getPosts({
   tag,
   year,
   order = "desc",
   featuredFirst = true,
-}: GetPostsParams = {}) => {
+}: GetPostsParams = {}) {
   let finalPosts = posts;
 
   if (tag !== undefined) {
@@ -74,9 +71,9 @@ export const getPosts = ({
   });
 
   return finalPosts;
-};
+}
 
-export const getPostsMeta = () => {
+export function getPostsMeta() {
   const tags: Record<string, number> = {};
   const years: Record<number, number> = {};
 
@@ -89,4 +86,4 @@ export const getPostsMeta = () => {
   }
 
   return { tags, years, numPosts: posts.length };
-};
+}

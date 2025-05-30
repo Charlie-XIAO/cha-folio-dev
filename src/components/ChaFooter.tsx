@@ -1,10 +1,10 @@
 import { cn } from "fumadocs-ui/utils/cn";
 
-interface ChaFooterProps {
+export interface ChaFooterProps {
   type: "home" | "docs";
 }
 
-export const ChaFooter = (props: ChaFooterProps) => {
+export function ChaFooter(props: ChaFooterProps) {
   return (
     <div
       className={cn(
@@ -17,4 +17,4 @@ export const ChaFooter = (props: ChaFooterProps) => {
       <a href="https://github.com/Charlie-XIAO/cha-folio">cha-folio</a> theme.
     </div>
   );
-};
+}

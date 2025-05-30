@@ -1,15 +1,15 @@
 import { Callout } from "fumadocs-ui/components/callout";
 import Link from "fumadocs-core/link";
 
-interface ChaExternalCalloutProps {
+export interface ChaExternalCalloutProps {
   pageType: "post" | "project";
   href: string;
 }
 
-export const ChaExternalCallout = ({
+export function ChaExternalCallout({
   pageType,
   href,
-}: ChaExternalCalloutProps) => {
+}: ChaExternalCalloutProps) {
   return (
     <Callout>
       <p>Please visit the following link for this {pageType}:</p>
@@ -18,4 +18,4 @@ export const ChaExternalCallout = ({
       </p>
     </Callout>
   );
-};
+}

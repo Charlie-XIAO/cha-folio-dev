@@ -5,6 +5,20 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  turbopack: {
+    rules: {
+      "*.{csl,bib}": {
+        loaders: ["raw-loader"],
+        as: "*.js",
+      },
+    },
+  },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.(csl|bib)$/i,
+      use: "raw-loader",
+    });
+  },
   images: {
     remotePatterns: [
       {

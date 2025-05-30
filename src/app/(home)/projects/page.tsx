@@ -3,6 +3,7 @@ import { homeSource } from "@/lib/source";
 import { notFound } from "next/navigation";
 import { getProjects } from "@/lib/projects.data";
 import Link from "fumadocs-core/link";
+import { LuLink } from "react-icons/lu";
 
 export default async function Page() {
   const page = homeSource.getPage(["projects"]);
@@ -36,10 +37,14 @@ export default async function Page() {
           const categoryId = encodeURIComponent(category);
           return (
             <div key={category} className="mb-8">
-              <h2 className="text-2xl text-fd-muted-foreground text-right border-b mb-4 pb-1">
-                <Link id={categoryId} href={`#${categoryId}`}>
+              <h2 className="flex flex-row-reverse items-center gap-3 text-2xl text-fd-muted-foreground border-b mb-4 pb-1">
+                <Link id={categoryId} href={`#${categoryId}`} className="peer">
                   {category}
                 </Link>
+                <LuLink
+                  size={14}
+                  className="shrink-0 opacity-0 transition-opacity duration-300 peer-hover:opacity-100"
+                />
               </h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {getProjects({ category }).map((project) => (

@@ -5,7 +5,7 @@ import { Button } from "./ui/Button";
 import { useCallback, useEffect, useState } from "react";
 import { cn } from "fumadocs-ui/utils/cn";
 
-export const ChaScrollToTop = () => {
+export function ChaScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -40,4 +40,4 @@ export const ChaScrollToTop = () => {
       <LuChevronUp />
     </Button>
   );
-};
+}
