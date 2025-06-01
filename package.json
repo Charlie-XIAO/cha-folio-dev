@@ -5,12 +5,16 @@
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "prepare": "husky",
     "build": "next build",
     "dev": "next dev --turbo",
     "start": "next start",
+    "preview": "serve dist",
     "postinstall": "fumadocs-mdx",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "lint": "oxlint --max-warnings=0 --fix .",
+    "lint:check": "oxlint --max-warnings=0 ."
   },
   "dependencies": {
     "@citation-js/core": "^0.7.18",
@@ -42,10 +46,18 @@
     "@types/node": "^22.15.19",
     "@types/react": "^19.1.5",
     "@types/react-dom": "^19.1.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.0",
+    "oxlint": "^0.17.0",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
+    "serve": "^14.2.4",
     "tailwindcss": "^4.1.7",
     "typescript": "^5.8.3"
   },
-  "prettier": {}
+  "prettier": {},
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,md,mdx,html,css,scss,yml,yaml}": "prettier --write",
+    "*.{js,jsx,ts,tsx}": "oxlint --fix"
+  }
 }

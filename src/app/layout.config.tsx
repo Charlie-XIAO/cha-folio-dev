@@ -26,7 +26,7 @@ export const baseOptions: BaseLayoutProps = {
     {
       icon: <FaBlog />,
       text: "Blog",
-      url: "/posts",
+      url: "/blog",
       active: "nested-url",
     },
     {

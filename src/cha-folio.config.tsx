@@ -42,10 +42,14 @@ export default defineChaFolioConfig({
   },
   pages: {
     home: {
+      description: "A Fumadocs theme for portfolio websites",
       image: "/images/profile.jpg",
     },
     news: {},
-    posts: {},
+    posts: {
+      title: "cha-folio",
+      description: "A Fumadocs theme for portfolio websites",
+    },
     projects: {},
     publications: {
       description: (

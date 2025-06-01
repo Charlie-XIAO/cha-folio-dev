@@ -13,7 +13,7 @@ export const newsSource = loader({
 });
 
 export const postsSource = loader({
-  baseUrl: "/posts",
+  baseUrl: "/blog",
   source: createMDXSource(posts),
 });
 

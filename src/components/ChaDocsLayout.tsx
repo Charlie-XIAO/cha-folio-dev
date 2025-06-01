@@ -17,7 +17,6 @@ export interface ChaDocsLayoutProps extends BaseLayoutProps {
 
 export function ChaDocsLayout({
   nav = {},
-  i18n = false,
   links,
   githubUrl,
   ...props

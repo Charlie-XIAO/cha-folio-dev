@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "ignorePatterns": [],
+  "plugins": ["oxc", "react", "typescript", "nextjs"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "warn",
+    "pedantic": "warn"
+  },
+  "rules": {
+    "max-depth": "off",
+    "max-lines-per-function": "off",
+    "max-nested-callbacks": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/no-array-index-key": "off",
+    "react/exhaustive-deps": "error"
+  }
+}

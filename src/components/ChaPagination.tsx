@@ -6,7 +6,7 @@
 
 "use client";
 
-import { ComponentProps, useState } from "react";
+import { ComponentProps } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -16,7 +16,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "./ui/Pagination";
-import { useSearchParams, usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 function range(start: number, end: number) {
   const length = end - start + 1;

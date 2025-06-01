@@ -1,4 +1,4 @@
-import { defineConfig, defineCollections } from "fumadocs-mdx/config";
+import { defineCollections, defineConfig } from "fumadocs-mdx/config";
 import { z } from "zod";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
@@ -15,20 +15,19 @@ function z_image() {
   ]);
 }
 
-const baseSchema = {
+const baseDocSchema = {
   title: z.string(),
   description: z.string().optional(),
-};
-
-const baseDocSchema = {
-  ...baseSchema,
   full: z.boolean().optional(),
 };
 
 export const home = defineCollections({
   type: "doc",
   dir: "content/home",
-  schema: z.object({ ...baseSchema }),
+  schema: z.object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+  }),
 });
 
 export const news = defineCollections({

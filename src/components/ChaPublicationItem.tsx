@@ -59,7 +59,7 @@ export function ChaPublicationItem({
         openItem === "cite" ? `${citeRef.current.scrollHeight}px` : "0px",
       );
     }
-  });
+  }, [openItem]);
 
   const toggleAbstract = useCallback(() => {
     setOpenItem((prev) => (prev === "abstract" ? null : "abstract"));
@@ -81,7 +81,7 @@ export function ChaPublicationItem({
         </Link>
         <span className="text-fd-muted-foreground">({dateInfo.repr})</span>
         {badge && (
-          <span className="bg-fd-primary text-fd-primary-foreground text-xs font-semibold px-1.5 my-1 rounded-sm">
+          <span className="bg-fd-primary text-fd-primary-foreground text-xs font-semibold px-1.5 py-0.5 my-0.5 rounded-sm">
             {badge}
           </span>
         )}

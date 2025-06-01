@@ -1,3 +1,4 @@
+import { ChaHomePage } from "@/components/ChaHomePage";
 import { homeSource } from "@/lib/source";
 import { getMDXComponents } from "@/mdx-components";
 import { createRelativeLink } from "fumadocs-ui/mdx";
@@ -13,14 +14,7 @@ export default async function Page(props: {
   const MDXContent = page.data.body;
 
   return (
-    <div className="w-full max-w-[960px] mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-fd-primary mb-2">
-        {page.data.title}
-      </h1>
-      <p className="text-lg text-fd-muted-foreground mb-8">
-        {page.data.description}
-      </p>
-
+    <ChaHomePage title={page.data.title} description={page.data.description}>
       <div className="prose">
         <MDXContent
           components={getMDXComponents({
@@ -28,11 +22,11 @@ export default async function Page(props: {
           })}
         />
       </div>
-    </div>
+    </ChaHomePage>
   );
 }
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return homeSource.generateParams();
 }
 

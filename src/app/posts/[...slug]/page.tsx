@@ -1,8 +1,8 @@
 import { postsSource } from "@/lib/source";
 import {
-  DocsPage,
   DocsBody,
   DocsDescription,
+  DocsPage,
   DocsTitle,
 } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
@@ -62,7 +62,7 @@ export default async function Page(props: {
   );
 }
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return postsSource.generateParams();
 }
 

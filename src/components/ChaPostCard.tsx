@@ -1,20 +1,10 @@
 import { ChaImage } from "./ChaImage";
-import { ChaImageDef } from "@/types";
-import { LuDot, LuTag, LuExternalLink } from "react-icons/lu";
+import { LuDot, LuExternalLink, LuTag } from "react-icons/lu";
 import { Fragment } from "react";
+import { PostData } from "@/lib/posts.data";
 import Link from "fumadocs-core/link";
 
-export interface ChaPostCardProps {
-  title: string;
-  description?: string;
-  image?: ChaImageDef;
-  tags: string[];
-  featured: boolean;
-  href?: string;
-  url: string;
-  date: Date;
-  readingTime: string;
-}
+export interface ChaPostCardProps extends PostData {}
 
 export function ChaPostCard({
   title,
@@ -62,7 +52,7 @@ export function ChaPostCard({
                 </Fragment>
               ))}
               <LuDot />
-              {href !== undefined ? <LuExternalLink /> : readingTime}
+              {href === undefined ? readingTime : <LuExternalLink />}
             </div>
           </div>
 

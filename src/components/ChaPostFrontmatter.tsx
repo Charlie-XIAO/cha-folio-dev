@@ -27,7 +27,7 @@ export function ChaPostFrontmatter({
       <p className="flex flex-wrap items-center gap-4 mb-1">
         <LuCalendar />
         <Link
-          href={`/posts?year=${date.getFullYear()}`}
+          href={`/blog/year/${date.getFullYear()}`}
           className="hover:text-fd-primary hover:underline hover:underline-offset-4"
         >
           {date.toLocaleDateString("en-US", {
@@ -50,7 +50,7 @@ export function ChaPostFrontmatter({
         <span className="inline-flex flex-wrap items-center gap-1">
           {tags.length > 0 && (
             <Link
-              href={`/posts?tag=${tags[0]}`}
+              href={`/blog/tag/${tags[0]}`}
               className="hover:text-fd-primary hover:underline hover:underline-offset-4"
             >
               {tags[0]}
@@ -60,7 +60,7 @@ export function ChaPostFrontmatter({
             <Fragment key={tag}>
               <LuDot />
               <Link
-                href={`/posts?tag=${tag}`}
+                href={`/blog/tag/${tag}`}
                 className="hover:text-fd-primary hover:underline hover:underline-offset-4"
               >
                 {tag}

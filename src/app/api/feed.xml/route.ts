@@ -6,7 +6,7 @@ export const dynamic = "force-static";
 
 export function GET() {
   const baseUrl = new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+    process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000",
   );
 
   const feed = new Feed({
@@ -24,12 +24,12 @@ export function GET() {
 
   for (const post of posts) {
     const imageParams = new URLSearchParams();
-    imageParams.set("title", post.data.title);
-    imageParams.set("description", post.data.description ?? "");
+    imageParams.set("title", post.title);
+    imageParams.set("description", post.description ?? "");
 
     feed.addItem({
-      title: post.data.title,
-      description: post.data.description,
+      title: post.title,
+      description: post.description,
       link: new URL(post.url, baseUrl).href,
       date: post.date,
       author: [{ name: config.name, link: baseUrl.href }],

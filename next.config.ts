@@ -1,10 +1,13 @@
 import { createMDX } from "fumadocs-mdx/next";
+import { NextConfig } from "next";
 
 const withMDX = createMDX();
 
-/** @type {import('next').NextConfig} */
-const config = {
+const config: NextConfig = {
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? "",
   reactStrictMode: true,
+  output: "export",
+  distDir: "dist",
   turbopack: {
     rules: {
       "*.{csl,bib}": {
@@ -20,6 +23,7 @@ const config = {
     });
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

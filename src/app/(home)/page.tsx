@@ -10,6 +10,7 @@ import { getPublications } from "@/lib/publications.data";
 import { ChaPublicationItem } from "@/components/ChaPublicationItem";
 import config from "@/cha-folio.config";
 import { nodeInnerText } from "@/lib/utils";
+import { ChaHomePage } from "@/components/ChaHomePage";
 
 const {
   title,
@@ -25,21 +26,17 @@ const publications = showPublications
   ? getPublications({ selectedOnly: true })
   : [];
 
-export default async function HomePage() {
+export default function HomePage() {
   const page = homeSource.getPage([]);
   if (!page) notFound();
 
   const MDXContent = page.data.body;
-  const finalTitle = page.data.title || title || config.name;
-  const finalDescription = page.data.description || description;
 
   return (
-    <div className="w-full max-w-[960px] mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-fd-primary mb-2">{finalTitle}</h1>
-      <p className="text-lg text-fd-muted-foreground mb-8">
-        {finalDescription}
-      </p>
-
+    <ChaHomePage
+      title={page.data.title ?? title ?? config.name}
+      description={page.data.description ?? description}
+    >
       <div>
         {image && (
           <ChaImage
@@ -57,84 +54,91 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {showNews && (
-        <div>
-          <div className="prose">
-            <div></div>
-            <h2 className="inline-flex items-center gap-3">
-              News
-              <Link href="/news" title="View all news">
-                <LuLink />
-              </Link>
-            </h2>
-            <div></div>
-          </div>
-        </div>
-      )}
-
-      {showPosts && posts.length > 0 && (
-        <div>
-          <div className="prose">
-            <div></div>
-            <h2 className="inline-flex items-center gap-3">
-              Latest Posts
-              <Link href="/posts" title="View all posts">
-                <LuLink />
-              </Link>
-            </h2>
-            <div></div>
-          </div>
-
-          <ul className="flex flex-col gap-4">
-            {posts.slice(0, 3).map((post) => (
-              <li key={post.url} className="w-full">
-                <ChaPostCard
-                  url={post.url}
-                  date={post.date}
-                  readingTime={post.readingTime}
-                  {...post.data}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {showPublications && publications.length > 0 && (
-        <div>
-          <div className="prose">
-            <div></div>
-            <h2 className="inline-flex items-center gap-3">
-              Selected Publications
-              <Link href="/publications" title="View all publications">
-                <LuLink />
-              </Link>
-            </h2>
-            <div></div>
-          </div>
-
-          <ul className="border-t">
-            {publications.map((pub) => (
-              <li key={pub.citationKey} className="w-full py-6 px-2 border-b">
-                <ChaPublicationItem {...pub} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+      {showNews && <News />}
+      {showPosts && posts.length > 0 && <Posts />}
+      {showPublications && publications.length > 0 && <Publications />}
+    </ChaHomePage>
   );
 }
 
-export async function generateMetadata() {
+export function generateMetadata() {
   const page = homeSource.getPage([]);
   if (!page) notFound();
 
-  const finalTitle = page.data.title || title || config.name;
-  const finalDescription = page.data.description || description;
+  const finalTitle = page.data.title ?? title ?? config.name;
+  const finalDescription = page.data.description ?? description;
 
   return {
     title: nodeInnerText(finalTitle),
     description: nodeInnerText(finalDescription),
   };
+}
+
+function News() {
+  return (
+    <div>
+      <div className="prose">
+        <div></div>
+        <h2 className="inline-flex items-center gap-3">
+          News
+          <Link href="/news" title="View all news">
+            <LuLink />
+          </Link>
+        </h2>
+        <div></div>
+      </div>
+
+      <div>TODO</div>
+    </div>
+  );
+}
+
+function Posts() {
+  return (
+    <div>
+      <div className="prose">
+        <div></div>
+        <h2 className="inline-flex items-center gap-3">
+          Latest Posts
+          <Link href="/blog" title="View all posts">
+            <LuLink />
+          </Link>
+        </h2>
+        <div></div>
+      </div>
+
+      <ul className="flex flex-col gap-4">
+        {posts.slice(0, 3).map((post) => (
+          <li key={post.url} className="w-full">
+            <ChaPostCard {...post} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function Publications() {
+  return (
+    <div>
+      <div className="prose">
+        <div></div>
+        <h2 className="inline-flex items-center gap-3">
+          Selected Publications
+          <Link href="/publications" title="View all publications">
+            <LuLink />
+          </Link>
+        </h2>
+        <div></div>
+      </div>
+
+      <ul className="border-t">
+        {publications.map((pub) => (
+          <li key={pub.citationKey} className="w-full py-6 px-2 border-b">
+            <ChaPublicationItem {...pub} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

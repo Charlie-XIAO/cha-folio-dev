@@ -6,6 +6,8 @@ import {
 } from "@/lib/source";
 import { createSearchAPI } from "fumadocs-core/search/server";
 
+export const revalidate = false;
+
 const pages = [
   ...homeSource.getPages(),
   ...newsSource.getPages(),
@@ -13,10 +15,10 @@ const pages = [
   ...projectsSource.getPages(),
 ];
 
-export const { GET } = createSearchAPI("advanced", {
+export const { staticGET: GET } = createSearchAPI("advanced", {
   indexes: pages.map((page) => ({
     id: page.url,
-    title: page.data.title,
+    title: page.data.title ?? "",
     description: page.data.description,
     url: page.url,
     structuredData: page.data.structuredData,

@@ -9,12 +9,33 @@ export interface PostComputedData {
   readingTime: string;
 }
 
-export type PostData = PostPageData & PostComputedData;
+export interface PostData extends PostComputedData {
+  url: PostPageData["url"];
+  title: PostPageData["data"]["title"];
+  description: PostPageData["data"]["description"];
+  full: PostPageData["data"]["full"];
+  image: PostPageData["data"]["image"];
+  tags: PostPageData["data"]["tags"];
+  featured: PostPageData["data"]["featured"];
+  href: PostPageData["data"]["href"];
+  giscus: PostPageData["data"]["giscus"];
+}
 
 const posts = postsSource.getPages().reduce((acc, page) => {
   const computedData = computePost(page);
   if (computedData !== undefined) {
-    acc.push({ ...page, ...computedData });
+    acc.push({
+      url: page.url,
+      title: page.data.title,
+      description: page.data.description,
+      full: page.data.full,
+      image: page.data.image,
+      tags: page.data.tags,
+      featured: page.data.featured,
+      href: page.data.href,
+      giscus: page.data.giscus,
+      ...computedData,
+    });
   }
   return acc;
 }, [] as PostData[]);
@@ -43,34 +64,29 @@ export function computePost(page: PostPageData): PostComputedData | undefined {
 export interface GetPostsParams {
   tag?: string;
   year?: number;
-  order?: "desc" | "asc";
   featuredFirst?: boolean;
 }
 
 export function getPosts({
   tag,
   year,
-  order = "desc",
   featuredFirst = true,
 }: GetPostsParams = {}) {
-  let finalPosts = posts;
+  let finalPosts = [...posts];
 
   if (tag !== undefined) {
-    finalPosts = finalPosts.filter((post) => post.data.tags.includes(tag));
+    finalPosts = finalPosts.filter((post) => post.tags.includes(tag));
   }
   if (year !== undefined) {
     finalPosts = finalPosts.filter((post) => post.date.getFullYear() === year);
   }
 
-  const sortMultiplier = order === "desc" ? 1 : -1;
-  finalPosts.sort((a, b) => {
-    if (featuredFirst && a.data.featured !== b.data.featured) {
-      return b.data.featured ? 1 : -1;
+  return finalPosts.sort((a, b) => {
+    if (featuredFirst && a.featured !== b.featured) {
+      return b.featured ? 1 : -1;
     }
-    return sortMultiplier * (b.date.getTime() - a.date.getTime());
+    return b.date.getTime() - a.date.getTime();
   });
-
-  return finalPosts;
 }
 
 export function getPostsMeta() {
@@ -78,12 +94,12 @@ export function getPostsMeta() {
   const years: Record<number, number> = {};
 
   for (const post of posts) {
-    for (const tag of post.data.tags) {
+    for (const tag of post.tags) {
       tags[tag] = (tags[tag] || 0) + 1;
     }
     const fullYear = post.date.getFullYear();
     years[fullYear] = (years[fullYear] || 0) + 1;
   }
 
-  return { tags, years, numPosts: posts.length };
+  return { tags, years };
 }

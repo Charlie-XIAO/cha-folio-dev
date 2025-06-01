@@ -4,6 +4,7 @@ import Link from "fumadocs-core/link";
 import { LuLink } from "react-icons/lu";
 import config from "@/cha-folio.config";
 import { nodeInnerText } from "@/lib/utils";
+import { ChaHomePage } from "@/components/ChaHomePage";
 
 const {
   title = "Publications",
@@ -11,12 +12,9 @@ const {
   groupByYears = true,
 } = config.pages?.publications ?? {};
 
-export default async function Page() {
+export default function Page() {
   return (
-    <div className="w-full max-w-[960px] mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-fd-primary mb-2">{title}</h1>
-      <p className="text-lg text-fd-muted-foreground mb-8">{description}</p>
-
+    <ChaHomePage title={title} description={description}>
       {groupByYears ? (
         Object.keys(getPublicationsMeta().years)
           .sort((a, b) => Number(b) - Number(a))
@@ -52,11 +50,11 @@ export default async function Page() {
           ))}
         </ul>
       )}
-    </div>
+    </ChaHomePage>
   );
 }
 
-export async function generateMetadata() {
+export function generateMetadata() {
   return {
     title: nodeInnerText(title),
     description: nodeInnerText(description),

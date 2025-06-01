@@ -55,8 +55,8 @@ function extractDateInfo(entry: any): Publication["dateInfo"] {
 
   const date = new Date(
     year,
-    month !== undefined ? month - 1 : 0,
-    day !== undefined ? day : 1,
+    month === undefined ? 0 : month - 1,
+    day === undefined ? 1 : day,
   );
   const options: Intl.DateTimeFormatOptions = { year: "numeric" };
   if (month !== undefined) {
@@ -102,7 +102,7 @@ function extractString(
     return undefined;
   }
   if (typeof value !== "string") {
-    throw new Error(
+    throw new TypeError(
       `Invalid type for string value: ${typeof value}; expected string`,
     );
   }
