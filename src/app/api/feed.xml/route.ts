@@ -1,6 +1,7 @@
 import { getPosts } from "@/lib/posts.data";
 import { Feed } from "feed";
 import config from "@/cha-folio.config";
+import { nodeInnerText } from "@/lib/utils";
 
 export const dynamic = "force-static";
 
@@ -12,7 +13,10 @@ export function GET() {
   const feed = new Feed({
     title: String(config.metadata.title),
     description: config.metadata.description ?? undefined,
-    copyright: config.copyright ?? config.name,
+    copyright:
+      config.copyright === undefined
+        ? config.name
+        : nodeInnerText(config.copyright),
     id: baseUrl.href,
     link: baseUrl.href,
     feed: new URL("/api/feed.xml", baseUrl).href,

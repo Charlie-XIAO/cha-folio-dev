@@ -11,6 +11,7 @@ import { ChaPublicationItem } from "@/components/ChaPublicationItem";
 import config from "@/cha-folio.config";
 import { nodeInnerText } from "@/lib/utils";
 import { ChaHomePage } from "@/components/ChaHomePage";
+import { ChaSocialLinks } from "@/components/ChaSocialLinks";
 
 const {
   title,
@@ -57,6 +58,8 @@ export default function HomePage() {
       {showNews && <News />}
       {showPosts && posts.length > 0 && <Posts />}
       {showPublications && publications.length > 0 && <Publications />}
+
+      <ChaSocialLinks className="mt-12" />
     </ChaHomePage>
   );
 }

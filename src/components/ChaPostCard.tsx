@@ -42,17 +42,21 @@ export function ChaPostCard({
               </p>
             )}
 
-            <div className="text-sm text-fd-muted-foreground mt-4 inline-flex items-center flex-wrap gap-x-2">
+            <div className="text-sm text-fd-muted-foreground mt-4 space-x-2 [&>*]:inline [&>*]:align-middle">
               <span>{formattedDate}</span>
               <LuDot />
               {tags.map((tag) => (
                 <Fragment key={tag}>
                   <LuTag />
-                  {tag}
+                  <span>{tag}</span>
                 </Fragment>
               ))}
               <LuDot />
-              {href === undefined ? readingTime : <LuExternalLink />}
+              {href === undefined ? (
+                <span>{readingTime}</span>
+              ) : (
+                <LuExternalLink />
+              )}
             </div>
           </div>
 

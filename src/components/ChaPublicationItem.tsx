@@ -30,7 +30,7 @@ export function ChaPublicationItem({
   bib,
   abstract,
   bibtexShow = false,
-  badge,
+  badge = "HELLO?",
   url,
   pdf,
   code,
@@ -75,7 +75,7 @@ export function ChaPublicationItem({
       className={cn("[&_.csl-left-margin]:hidden", className)}
       {...props}
     >
-      <h2 className="flex flex-wrap items-center gap-x-2 mb-1">
+      <h2 className="mb-1 text-lg space-x-2 [&>*]:inline [&>*]:align-middle">
         <Link href={`#${itemId}`} className="peer font-semibold">
           {title}
         </Link>
@@ -87,13 +87,18 @@ export function ChaPublicationItem({
         )}
         <LuLink
           size={14}
-          className="shrink-0 text-fd-muted-foreground opacity-0 transition-opacity duration-300 peer-hover:opacity-100"
+          className="text-fd-muted-foreground opacity-0 transition-opacity duration-300 peer-hover:opacity-100 hover:opacity-100"
         />
       </h2>
       {authors.length > 0 && (
         <p className="mb-1">
-          {authors.map((author, index) => (
-            <span key={author}>{index === 0 ? author : `, ${author}`}</span>
+          {authors.map(({ name, highlighted }, index) => (
+            <span
+              key={name}
+              className={cn(highlighted && "underline underline-offset-4")}
+            >
+              {index === 0 ? name : `, ${name}`}
+            </span>
           ))}
         </p>
       )}

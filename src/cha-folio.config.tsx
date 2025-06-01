@@ -1,8 +1,31 @@
 import { Link } from "fumadocs-core/framework";
 import { defineChaFolioConfig } from "./types";
+import { ChaImage } from "./components/ChaImage";
 
 export default defineChaFolioConfig({
   name: "cha-folio",
+  socialLinks: [
+    { type: "email", email: "yx2436@nyu.edu" },
+    { type: "github", username: "Charlie-XIAO" },
+    { type: "wechat", qr: "/images/wechat-qr.jpg" },
+    { type: "rss" },
+    {
+      type: "custom",
+      icon: (
+        <ChaImage
+          image={{
+            light: "/images/logo-light.png",
+            dark: "/images/logo-dark.png",
+          }}
+          width={30}
+          height={30}
+        />
+      ),
+      url: "/",
+      title: "Home",
+    },
+  ],
+  copyright: "© Copyright 2025 Yao Xiao",
   metadata: {
     title: "cha-folio",
     description: "A Fumadocs theme for portfolio websites",
@@ -21,11 +44,6 @@ export default defineChaFolioConfig({
       ],
     },
   },
-  avatar: {
-    light: "/images/logo-light.png",
-    dark: "/images/logo-dark.png",
-  },
-  copyright: "© Copyright 2025 Yao Xiao",
   giscus: {
     repo: "Charlie-XIAO/cha-folio",
     repoId: "R_kgDOOw-AuQ",
@@ -61,6 +79,10 @@ export default defineChaFolioConfig({
           for testing and demo purposes.
         </>
       ),
+      matchedNames: {
+        family: ["Xiao"],
+        given: ["Yao", /^Y\.?$/],
+      },
     },
     repositories: {
       username: "Charlie-XIAO",

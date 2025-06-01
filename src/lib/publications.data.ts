@@ -3,11 +3,15 @@ import "@citation-js/plugin-csl";
 import "@citation-js/plugin-bibtex";
 import template from "../data/ieee-cha-folio.csl";
 import bib from "../data/publications.bib";
+import config from "@/cha-folio.config";
+import { matchesAnyPattern } from "./utils";
+
+const { matchedNames } = config.pages?.publications ?? {};
 
 export interface Publication {
   citationKey: string;
   title: string;
-  authors: string[];
+  authors: { name: string; highlighted: boolean }[];
   dateInfo: { year: number; repr: string };
   details: string;
   bib: string;
@@ -22,15 +26,28 @@ export interface Publication {
 }
 
 function extractAuthors(entry: any): Publication["authors"] {
-  const authors: string[] = [];
+  const authors: { name: string; highlighted: boolean }[] = [];
   if (entry.data[0].author !== undefined) {
     for (const author of entry.data[0].author) {
       if (author.given && author.family) {
-        authors.push(`${author.given} ${author.family}`);
+        const fullName = `${author.given} ${author.family}`;
+        authors.push({
+          name: fullName,
+          highlighted:
+            (matchesAnyPattern(author.given, matchedNames?.given) &&
+              matchesAnyPattern(author.family, matchedNames?.family)) ||
+            matchesAnyPattern(fullName, matchedNames?.full),
+        });
       } else if (author.given) {
-        authors.push(author.given);
+        authors.push({
+          name: author.given,
+          highlighted: matchesAnyPattern(author.given, matchedNames?.full),
+        });
       } else if (author.family) {
-        authors.push(author.family);
+        authors.push({
+          name: author.family,
+          highlighted: matchesAnyPattern(author.family, matchedNames?.full),
+        });
       }
     }
   }
@@ -151,8 +168,7 @@ function parseBibEntry(entry: any): Publication {
   };
 }
 
-const config = plugins.config.get("@csl");
-config.templates.add("ieee-cha-folio", template);
+plugins.config.get("@csl").templates.add("ieee-cha-folio", template);
 
 const cite = new Cite(bib, { target: "@biblatex/entries+list" });
 const publications: Publication[] = cite.data.map(parseBibEntry);

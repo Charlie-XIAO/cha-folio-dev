@@ -17,7 +17,7 @@ import { useNav } from "fumadocs-ui/provider";
 import { cn } from "fumadocs-ui/utils/cn";
 import { HTMLAttributes, useState } from "react";
 
-export function ChaNavbar(props: HTMLAttributes<HTMLElement>) {
+export function ChaNavbar({ ...props }: HTMLAttributes<HTMLElement>) {
   const [value, setValue] = useState("");
   const { isTransparent } = useNav();
 

@@ -24,7 +24,7 @@ export function ChaPostFrontmatter({
       className={cn("text-fd-muted-foreground text-sm", className)}
       {...props}
     >
-      <p className="flex flex-wrap items-center gap-4 mb-1">
+      <p className="flex items-center gap-4 mb-1">
         <LuCalendar />
         <Link
           href={`/blog/year/${date.getFullYear()}`}
@@ -37,17 +37,17 @@ export function ChaPostFrontmatter({
           })}
         </Link>
       </p>
-      <p className="flex flex-wrap items-center gap-4 mb-1">
+      <p className="flex items-center gap-4 mb-1">
         <LuFileText />
-        <span className="inline-flex flex-wrap items-center gap-1">
+        <span className="space-x-1 [&>*]:inline [&>*]:align-middle">
           <span>{wordCount} words</span>
           <LuDot />
           <span>{readingTime}</span>
         </span>
       </p>
-      <p className="flex flex-wrap items-center gap-4 mb-1">
+      <p className="flex items-center gap-4 mb-1">
         <LuTag />
-        <span className="inline-flex flex-wrap items-center gap-1">
+        <span className="space-x-1 [&>*]:inline [&>*]:align-middle">
           {tags.length > 0 && (
             <Link
               href={`/blog/tag/${tags[0]}`}

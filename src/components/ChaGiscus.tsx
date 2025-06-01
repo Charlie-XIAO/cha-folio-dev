@@ -6,7 +6,7 @@ import { HTMLAttributes } from "react";
 
 export interface ChaGiscusProps extends HTMLAttributes<HTMLDivElement> {}
 
-export function ChaGiscus(props: ChaGiscusProps) {
+export function ChaGiscus({ ...props }: ChaGiscusProps) {
   if (config.giscus === undefined) {
     return null;
   }
