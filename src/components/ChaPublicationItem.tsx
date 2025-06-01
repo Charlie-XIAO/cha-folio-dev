@@ -30,7 +30,7 @@ export function ChaPublicationItem({
   bib,
   abstract,
   bibtexShow = false,
-  badge = "HELLO?",
+  badge,
   url,
   pdf,
   code,
