@@ -1,7 +1,7 @@
 "use client";
 
 import { LuChevronUp } from "react-icons/lu";
-import { Button } from "./ui/Button";
+import { Button } from "./shadcn-ui/Button";
 import { useCallback, useEffect, useState } from "react";
 import { cn } from "fumadocs-ui/utils/cn";
 
@@ -27,10 +27,9 @@ export function ChaScrollToTop() {
   return (
     <Button
       className={cn(
-        "fixed bottom-6 rounded-full cursor-pointer transition-opacity duration-300",
+        "fixed bottom-6 right-10 rounded-full cursor-pointer transition-opacity duration-300",
         !isVisible && "opacity-0 pointer-events-none",
       )}
-      style={{ right: "calc(40px + var(--removed-body-scroll-bar-size, 0px))" }}
       variant="outline"
       size="icon"
       title="Scroll to top"

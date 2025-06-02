@@ -2,7 +2,7 @@
 
 import { Publication } from "@/lib/publications.data";
 import { ChaSafeHtml } from "./ChaSafeHTML";
-import { Button, buttonVariants } from "./ui/Button";
+import { Button, buttonVariants } from "./shadcn-ui/Button";
 import { MdOutlineArticle } from "react-icons/md";
 import { FaQuoteRight, FaRegFilePdf } from "react-icons/fa6";
 import { LuCodeXml, LuLink, LuLink2, LuVideo } from "react-icons/lu";

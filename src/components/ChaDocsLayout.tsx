@@ -8,7 +8,7 @@ import {
 } from "fumadocs-ui/provider";
 import { cn } from "fumadocs-ui/utils/cn";
 import { HTMLAttributes, useMemo } from "react";
-import { ChaHeader } from "./ChaHeader";
+import { Header } from "@/components/fumadocs-ui/header";
 
 export interface ChaDocsLayoutProps extends BaseLayoutProps {
   tree: PageTree.Root;
@@ -19,7 +19,9 @@ export function ChaDocsLayout({
   nav = {},
   links,
   githubUrl,
-  ...props
+  tree,
+  containerProps,
+  children,
 }: ChaDocsLayoutProps) {
   const finalLinks = useMemo(
     () => getLinks(links ?? [], githubUrl),
@@ -34,21 +36,21 @@ export function ChaDocsLayout({
   };
 
   return (
-    <TreeContextProvider tree={props.tree}>
+    <TreeContextProvider tree={tree}>
       <main
         id="nd-docs-layout"
-        {...props.containerProps}
+        {...containerProps}
         className={cn(
           "flex flex-1 flex-row pe-(--fd-layout-offset) [--fd-nav-height:3.5rem] [--fd-tocnav-height:36px] xl:[--fd-toc-width:286px] xl:[--fd-tocnav-height:0px]",
-          props.containerProps?.className,
+          containerProps?.className,
         )}
         style={{
           ...layoutVariables,
-          ...props.containerProps?.style,
+          ...containerProps?.style,
         }}
       >
-        <ChaHeader nav={nav} links={finalLinks} />
-        <StylesProvider {...pageStyles}>{props.children}</StylesProvider>
+        <Header nav={nav} links={finalLinks} />
+        <StylesProvider {...pageStyles}>{children}</StylesProvider>
       </main>
     </TreeContextProvider>
   );

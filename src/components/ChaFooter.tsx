@@ -6,12 +6,12 @@ export interface ChaFooterProps {
   type: "home" | "docs";
 }
 
-export function ChaFooter({ ...props }: ChaFooterProps) {
+export function ChaFooter({ type }: ChaFooterProps) {
   return (
     <div
       className={cn(
         "prose space-x-1 text-sm py-8 text-fd-muted-foreground [--color-fd-primary:var(--color-fd-muted-foreground)]",
-        props.type === "home" && "mt-auto border-t text-center",
+        type === "home" && "mt-auto border-t text-center",
       )}
     >
       {config.footer === undefined ? (

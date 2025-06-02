@@ -1,42 +1,77 @@
-/**
- * Customization of the Fumadocs header component.
- *
- * References:
- * https://github.com/fuma-nama/fumadocs/blob/a60920c13855844352e90abafaa1b7b55c946105/packages/ui/src/layouts/home/header.tsx
- * https://github.com/RUNFUNRUN/blog/blob/7b3ebde07c97a17780db8888b2aafe8a26c2b7e5/src/components/header.tsx
- */
-
-import Link from "fumadocs-core/link";
+import { Fragment, HTMLAttributes, useMemo } from "react";
 import {
-  LanguageToggle,
-  LanguageToggleText,
-} from "fumadocs-ui/components/layout/language-toggle";
+  BaseLayoutProps,
+  getLinks,
+  NavOptions,
+  slot,
+  slots,
+} from "fumadocs-ui/layouts/shared";
+import { cn } from "fumadocs-ui/utils/cn";
+import { NavProvider } from "fumadocs-ui/contexts/layout";
 import {
-  LargeSearchToggle,
-  SearchToggle,
-} from "fumadocs-ui/components/layout/search-toggle";
-import { ThemeToggle } from "fumadocs-ui/components/layout/theme-toggle";
-import { HomeLayoutProps } from "fumadocs-ui/layouts/home";
-import { LinkItemType } from "fumadocs-ui/layouts/links";
-import { LuChevronDown, LuLanguages } from "react-icons/lu";
-import {
-  Menu,
-  MenuContent,
-  MenuLinkItem,
-  MenuTrigger,
-} from "fumadocs-ui/layouts/home/menu";
-import { ChaNavbar } from "./ChaNavbar";
-import { Fragment, useMemo } from "react";
-import { getLinks, slot, slots } from "fumadocs-ui/layouts/shared";
-import {
+  Navbar,
   NavbarLink,
   NavbarMenu,
   NavbarMenuContent,
   NavbarMenuLink,
   NavbarMenuTrigger,
-} from "fumadocs-ui/layouts/home/navbar";
+} from "./navbar";
+import { LinkItemType } from "fumadocs-ui/layouts/links";
+import {
+  LargeSearchToggle,
+  SearchToggle,
+} from "fumadocs-ui/components/layout/search-toggle";
+import { ThemeToggle } from "fumadocs-ui/components/layout/theme-toggle";
+import {
+  LanguageToggle,
+  LanguageToggleText,
+} from "fumadocs-ui/components/layout/language-toggle";
+import { LuChevronDown, LuLanguages } from "react-icons/lu";
+import Link from "fumadocs-core/link";
+import { Menu, MenuContent, MenuLinkItem, MenuTrigger } from "./menu";
+import { buttonVariants } from "fumadocs-ui/components/ui/button";
 
-export function ChaHeader({
+export interface HomeLayoutProps extends BaseLayoutProps {
+  nav?: Partial<NavOptions & { enableHoverToOpen?: boolean }>;
+}
+
+export function HomeLayout({
+  nav,
+  links,
+  githubUrl,
+  i18n,
+  disableThemeSwitch = false,
+  themeSwitch = { enabled: !disableThemeSwitch },
+  searchToggle,
+  className,
+  children,
+  ...props
+}: HomeLayoutProps & HTMLAttributes<HTMLElement>) {
+  return (
+    <NavProvider transparentMode={nav?.transparentMode}>
+      <main
+        id="nd-home-layout"
+        {...props}
+        className={cn("flex flex-1 flex-col pt-14", className)}
+      >
+        {slot(
+          nav,
+          <Header
+            links={links}
+            nav={nav}
+            themeSwitch={themeSwitch}
+            searchToggle={searchToggle}
+            i18n={i18n}
+            githubUrl={githubUrl}
+          />,
+        )}
+        {children}
+      </main>
+    </NavProvider>
+  );
+}
+
+export function Header({
   nav = {},
   i18n = false,
   links,
@@ -57,7 +92,7 @@ export function ChaHeader({
   );
 
   return (
-    <ChaNavbar>
+    <Navbar>
       <Link
         href={nav.url ?? "/"}
         className="inline-flex items-center gap-2.5 font-semibold"
@@ -65,20 +100,18 @@ export function ChaHeader({
         {nav.title}
       </Link>
       {nav.children}
-
       <ul className="flex flex-row items-center gap-2 px-6 max-sm:hidden">
         {navItems
           .filter((item) => !isSecondary(item))
           .map((item, i) => (
-            <ChaNavbarLinkItem key={i} item={item} />
+            <NavbarLinkItem key={i} item={item} />
           ))}
       </ul>
-
       <div className="flex flex-row items-center justify-end gap-1.5 flex-1">
         {slots(
           "sm",
           searchToggle,
-          <SearchToggle className="lg:hidden" hideIfDisabled />,
+          <SearchToggle className="p-2 lg:hidden" hideIfDisabled />,
         )}
         {slots(
           "lg",
@@ -98,10 +131,9 @@ export function ChaHeader({
           </LanguageToggle>
         ) : null}
       </div>
-
-      <ul className="flex flex-row items-center gap-1.5 ml-1.5">
+      <ul className="flex flex-row items-center lg:gap-1.5 lg:ml-1.5">
         {navItems.filter(isSecondary).map((item, i) => (
-          <ChaNavbarLinkItem
+          <NavbarLinkItem
             key={i}
             item={item}
             className="-me-1.5 max-lg:hidden"
@@ -110,10 +142,16 @@ export function ChaHeader({
         <Menu className="lg:hidden">
           <MenuTrigger
             aria-label="Toggle Menu"
-            className="group -me-2"
+            className={cn(
+              buttonVariants({
+                size: "icon",
+                color: "ghost",
+                className: "group -me-1.5",
+              }),
+            )}
             enableHover={nav.enableHoverToOpen}
           >
-            <LuChevronDown className="size-3 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+            <LuChevronDown className="!size-5.5 transition-transform duration-300 group-data-[state=open]:rotate-180" />
           </MenuTrigger>
           <MenuContent className="sm:flex-row sm:items-center sm:justify-end">
             {menuItems
@@ -125,7 +163,7 @@ export function ChaHeader({
               {menuItems.filter(isSecondary).map((item, i) => (
                 <MenuLinkItem key={i} item={item} className="-me-1.5" />
               ))}
-              <div className="flex-1" />
+              <div role="separator" className="flex-1" />
               {i18n ? (
                 <LanguageToggle>
                   <LuLanguages className="size-5" />
@@ -138,11 +176,11 @@ export function ChaHeader({
           </MenuContent>
         </Menu>
       </ul>
-    </ChaNavbar>
+    </Navbar>
   );
 }
 
-function ChaNavbarLinkItem({
+function NavbarLinkItem({
   item,
   ...props
 }: {
@@ -207,7 +245,7 @@ function ChaNavbarLinkItem({
   );
 }
 
-function isSecondary(item: LinkItemType) {
+function isSecondary(item: LinkItemType): boolean {
   return (
     ("secondary" in item && item.secondary === true) || item.type === "icon"
   );

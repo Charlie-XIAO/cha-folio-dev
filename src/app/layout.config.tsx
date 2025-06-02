@@ -36,27 +36,23 @@ export const baseOptions: BaseLayoutProps = {
       active: "nested-url",
     },
     {
-      icon: <LuBookOpen />,
-      text: "Publications",
-      url: "/publications",
-      active: "nested-url",
-    },
-    {
-      icon: <RiGitRepositoryLine />,
-      text: "Repositories",
-      url: "/repositories",
-      active: "nested-url",
-    },
-    {
+      text: "More",
       type: "menu",
-      text: "CV",
       items: [
         {
-          text: "English",
-          url: "/pdf/blank.pdf",
+          icon: <LuBookOpen />,
+          text: "Publications",
+          url: "/publications",
+          active: "nested-url",
         },
         {
-          text: "中文",
+          icon: <RiGitRepositoryLine />,
+          text: "Repositories",
+          url: "/repositories",
+          active: "nested-url",
+        },
+        {
+          text: "CV",
           url: "/pdf/blank.pdf",
         },
       ],

@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { ChaPaginatedPosts } from "@/components/ChaPaginatedPosts";
 import config from "@/cha-folio.config";
 import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/Skeleton";
+import { Skeleton } from "@/components/shadcn-ui/Skeleton";
 
 const { title = "Blog", description } = config.pages?.posts ?? {};
 

@@ -15,7 +15,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "./ui/Pagination";
+} from "./shadcn-ui/Pagination";
 import { usePathname, useSearchParams } from "next/navigation";
 
 function range(start: number, end: number) {

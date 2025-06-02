@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { buttonVariants } from "./ui/Button";
+import { buttonVariants } from "./shadcn-ui/Button";
 import { LuCalendar, LuTag } from "react-icons/lu";
 import { cn } from "fumadocs-ui/utils/cn";
 import Link from "fumadocs-core/link";

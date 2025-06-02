@@ -58,7 +58,7 @@ import {
 } from "react-icons/fa6";
 import { LuMail, LuRss } from "react-icons/lu";
 import { ChaImage } from "./ChaImage";
-import { Popover, PopoverTrigger, PopoverContent } from "./ui/Popover";
+import { Popover, PopoverTrigger, PopoverContent } from "./shadcn-ui/Popover";
 import { ChaImageDef } from "@/types";
 
 export interface ChaSocialLinksProps extends HTMLAttributes<HTMLDivElement> {}
