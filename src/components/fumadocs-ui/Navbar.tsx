@@ -17,6 +17,12 @@ import {
 import { useNav } from "fumadocs-ui/contexts/layout";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { FaCaretDown } from "react-icons/fa6";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../shadcn-ui/DropdownMenu";
 
 const navItemVariants = cva(
   "inline-flex items-center gap-1 px-2 py-1 text-fd-muted-foreground transition-colors hover:text-fd-accent-foreground data-[active=true]:text-fd-primary [&_svg]:size-4",
@@ -24,6 +30,7 @@ const navItemVariants = cva(
 
 export function Navbar({
   className,
+  style,
   children,
   ...props
 }: ComponentProps<"div">) {
@@ -36,11 +43,16 @@ export function Navbar({
         id="nd-nav"
         {...props}
         className={cn(
-          "fixed top-(--fd-banner-height) z-40 inset-x-0 backdrop-blur-lg border-b transition-colors *:mx-auto *:max-w-fd-container",
+          "fixed top-(--fd-banner-height) z-40 box-content backdrop-blur-lg -translate-x-1/2 border-b transition-colors *:mx-auto *:max-w-fd-container",
           value.length > 0 ? "shadow-lg" : "shadow-sm",
           (!isTransparent || value.length > 0) && "bg-fd-background/80",
           className,
         )}
+        style={{
+          width: "calc(100% - var(--removed-body-scroll-bar-size, 0px))",
+          left: "calc(50% - var(--removed-body-scroll-bar-size, 0px) / 2)",
+          ...style,
+        }}
       >
         <NavigationMenuList
           className="flex h-14 w-full items-center px-4"
@@ -54,7 +66,7 @@ export function Navbar({
   );
 }
 
-export const NavbarMenu = NavigationMenuItem;
+export const NavbarMenu = DropdownMenu;
 
 export function NavbarMenuContent({
   className,
@@ -62,15 +74,14 @@ export function NavbarMenuContent({
   ...props
 }: ComponentProps<typeof NavigationMenuContent>) {
   return (
-    <NavigationMenuContent
+    <DropdownMenuContent
+      align="start"
+      onCloseAutoFocus={(e) => e.preventDefault()}
       {...props}
-      className={cn(
-        "grid grid-cols-1 gap-2 p-4 md:grid-cols-2 lg:grid-cols-3",
-        className,
-      )}
+      className={cn("hidden sm:flex sm:flex-col bg-fd-background", className)}
     >
       {children}
-    </NavigationMenuContent>
+    </DropdownMenuContent>
   );
 }
 
@@ -80,29 +91,33 @@ export function NavbarMenuTrigger({
   ...props
 }: ComponentProps<typeof NavigationMenuTrigger>) {
   return (
-    <NavigationMenuTrigger
+    <DropdownMenuTrigger
       {...props}
-      className={cn(navItemVariants(), "group rounded-md", className)}
+      className={cn(
+        navItemVariants(),
+        "group rounded-md cursor-pointer",
+        className,
+      )}
     >
       {children}
       <FaCaretDown className="ml-0.5 size-3! transition duration-300 group-data-[state=open]:rotate-180" />
-    </NavigationMenuTrigger>
+    </DropdownMenuTrigger>
   );
 }
 
 export function NavbarMenuLink({ className, children, ...props }: LinkProps) {
   return (
-    <NavigationMenuLink asChild>
+    <DropdownMenuItem asChild>
       <Link
         {...props}
         className={cn(
-          "flex flex-col gap-2 rounded-lg border bg-fd-card p-3 transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground",
+          "flex gap-2 px-3! cursor-pointer bg-fd-card text-fd-muted-foreground transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground",
           className,
         )}
       >
         {children}
       </Link>
-    </NavigationMenuLink>
+    </DropdownMenuItem>
   );
 }
 

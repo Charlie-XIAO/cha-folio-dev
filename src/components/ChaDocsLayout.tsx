@@ -8,7 +8,7 @@ import {
 } from "fumadocs-ui/provider";
 import { cn } from "fumadocs-ui/utils/cn";
 import { HTMLAttributes, useMemo } from "react";
-import { Header } from "@/components/fumadocs-ui/header";
+import { Header } from "@/components/fumadocs-ui/Header";
 
 export interface ChaDocsLayoutProps extends BaseLayoutProps {
   tree: PageTree.Root;

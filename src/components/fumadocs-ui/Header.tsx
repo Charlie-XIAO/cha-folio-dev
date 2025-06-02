@@ -15,7 +15,7 @@ import {
   NavbarMenuContent,
   NavbarMenuLink,
   NavbarMenuTrigger,
-} from "./navbar";
+} from "./Navbar";
 import { LinkItemType } from "fumadocs-ui/layouts/links";
 import {
   LargeSearchToggle,
@@ -28,7 +28,7 @@ import {
 } from "fumadocs-ui/components/layout/language-toggle";
 import { LuChevronDown, LuLanguages } from "react-icons/lu";
 import Link from "fumadocs-core/link";
-import { Menu, MenuContent, MenuLinkItem, MenuTrigger } from "./menu";
+import { Menu, MenuContent, MenuLinkItem, MenuTrigger } from "./Menu";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 
 export interface HomeLayoutProps extends BaseLayoutProps {
@@ -196,9 +196,7 @@ function NavbarLinkItem({
 
       const {
         banner = child.icon ? (
-          <div className="w-fit rounded-md border bg-fd-muted p-1 [&_svg]:size-4">
-            {child.icon}
-          </div>
+          <div className="[&_svg]:size-4">{child.icon}</div>
         ) : null,
         ...rest
       } = child.menu ?? {};
@@ -213,7 +211,7 @@ function NavbarLinkItem({
           {rest.children ?? (
             <>
               {banner}
-              <p className="text-[15px] font-medium">{child.text}</p>
+              <p className="text-[15px]">{child.text}</p>
               <p className="text-sm text-fd-muted-foreground empty:hidden">
                 {child.description}
               </p>

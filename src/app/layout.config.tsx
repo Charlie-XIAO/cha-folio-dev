@@ -1,7 +1,7 @@
 import { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { FaBlog } from "react-icons/fa6";
 import { ChaImage } from "@/components/ChaImage";
-import { LuBookOpen, LuFolderOpen, LuRss } from "react-icons/lu";
+import { LuBookOpen, LuFileText, LuFolderOpen, LuRss } from "react-icons/lu";
 import { RiGitRepositoryLine } from "react-icons/ri";
 
 export const baseOptions: BaseLayoutProps = {
@@ -36,15 +36,21 @@ export const baseOptions: BaseLayoutProps = {
       active: "nested-url",
     },
     {
+      icon: <LuBookOpen />,
+      text: "Publications",
+      url: "/publications",
+      active: "nested-url",
+    },
+    {
+      icon: <RiGitRepositoryLine />,
+      text: "Repositories",
+      url: "/repositories",
+      active: "nested-url",
+    },
+    {
       text: "More",
       type: "menu",
       items: [
-        {
-          icon: <LuBookOpen />,
-          text: "Publications",
-          url: "/publications",
-          active: "nested-url",
-        },
         {
           icon: <RiGitRepositoryLine />,
           text: "Repositories",
@@ -52,6 +58,7 @@ export const baseOptions: BaseLayoutProps = {
           active: "nested-url",
         },
         {
+          icon: <LuFileText />,
           text: "CV",
           url: "/pdf/blank.pdf",
         },

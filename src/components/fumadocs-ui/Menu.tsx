@@ -109,7 +109,7 @@ export function MenuContent({
   return (
     <NavigationMenuContent
       {...props}
-      className={cn("flex flex-col p-4", className)}
+      className={cn("flex flex-col p-4 pt-2", className)}
     >
       {children}
     </NavigationMenuContent>
