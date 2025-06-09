@@ -1,4 +1,5 @@
 import { GiscusProps } from "@giscus/react";
+import { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { Metadata } from "next";
 import { ReactNode } from "react";
 
@@ -59,53 +60,58 @@ export type ChaSocialLink =
   | { type: "zotero"; username: string }
   | { type: "custom"; icon: ReactNode; url: string; title: string };
 
+export interface ChaPagesBaseProps {
+  title?: ReactNode;
+  description?: ReactNode;
+}
+
+export interface ChaPagesHomeProps extends ChaPagesBaseProps {
+  image?: ChaImageDef;
+  showNews?: boolean | number;
+  showPosts?: boolean | number;
+  showPublications?: boolean;
+}
+
+export interface ChaPagesNewsProps extends ChaPagesBaseProps {}
+
+export interface ChaPagesBlogProps extends ChaPagesBaseProps {}
+
+export interface ChaPagesProjectsProps extends ChaPagesBaseProps {
+  groupByCategories?: boolean | string[];
+}
+
+export interface ChaPagesPublicationsProps extends ChaPagesBaseProps {
+  groupByYears?: boolean;
+  matchedNames?: {
+    family?: ChaRegexPattern;
+    given?: ChaRegexPattern;
+    full?: ChaRegexPattern;
+  };
+}
+
+export interface ChaPagesRepositoriesProps extends ChaPagesBaseProps {
+  username?: string | string[];
+  repositories?: string[];
+}
+
+export interface ChaPagesProps {
+  home?: ChaPagesHomeProps;
+  news?: ChaPagesNewsProps;
+  blog?: ChaPagesBlogProps;
+  projects?: ChaPagesProjectsProps;
+  publications?: ChaPagesPublicationsProps;
+  repositories?: ChaPagesRepositoriesProps;
+}
+
 export interface ChaFolioConfig {
   name: string;
   socialLinks?: ChaSocialLink[];
   copyright?: ReactNode;
-  metadata: Metadata;
-  giscus?: GiscusProps;
   footer?: ReactNode;
-
-  pages?: {
-    home?: {
-      title?: ReactNode;
-      description?: ReactNode;
-      image?: ChaImageDef;
-      showNews?: boolean | number;
-      showPosts?: boolean | number;
-      showPublications?: boolean;
-    };
-    news?: {
-      title?: ReactNode;
-      description?: ReactNode;
-    };
-    posts?: {
-      title?: ReactNode;
-      description?: ReactNode;
-    };
-    projects?: {
-      title?: ReactNode;
-      description?: ReactNode;
-      groupByCategories?: boolean | string[];
-    };
-    publications?: {
-      title?: ReactNode;
-      description?: ReactNode;
-      groupByYears?: boolean;
-      matchedNames?: {
-        family?: ChaRegexPattern;
-        given?: ChaRegexPattern;
-        full?: ChaRegexPattern;
-      };
-    };
-    repositories?: {
-      title?: ReactNode;
-      description?: ReactNode;
-      username?: string | string[];
-      repositories?: string[];
-    };
-  };
+  giscus?: GiscusProps;
+  layout: BaseLayoutProps;
+  metadata: Metadata;
+  pages?: ChaPagesProps;
 }
 
 export function defineChaFolioConfig(config: ChaFolioConfig): ChaFolioConfig {

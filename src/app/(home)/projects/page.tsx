@@ -23,9 +23,9 @@ export default function Page() {
   return (
     <ChaHomePage title={title} description={description}>
       {categories === undefined ? (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <ul className="flex flex-wrap">
           {getProjects().map((project) => (
-            <li key={project.url}>
+            <li key={project.url} className="w-full sm:w-1/2 md:w-1/3">
               <ChaGalleryCard {...project} />
             </li>
           ))}
@@ -35,7 +35,7 @@ export default function Page() {
           const categoryId = encodeURIComponent(category);
           return (
             <div key={category} className="mb-8">
-              <h2 className="flex flex-row-reverse items-center gap-3 text-2xl text-fd-muted-foreground border-b mb-4 pb-1">
+              <h2 className="flex flex-row-reverse items-center gap-3 text-2xl text-fd-muted-foreground border-b mb-2 pb-0.5">
                 <Link id={categoryId} href={`#${categoryId}`} className="peer">
                   {category}
                 </Link>
@@ -44,9 +44,9 @@ export default function Page() {
                   className="shrink-0 opacity-0 transition-opacity duration-300 peer-hover:opacity-100"
                 />
               </h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <ul className="flex flex-wrap">
                 {getProjects({ category }).map((project) => (
-                  <li key={project.url}>
+                  <li key={project.url} className="w-full sm:w-1/2 md:w-1/3">
                     <ChaGalleryCard {...project} />
                   </li>
                 ))}

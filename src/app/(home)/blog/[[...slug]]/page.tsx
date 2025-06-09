@@ -7,7 +7,7 @@ import config from "@/cha-folio.config";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/shadcn-ui/Skeleton";
 
-const { title = "Blog", description } = config.pages?.posts ?? {};
+const { title = "Blog", description } = config.pages?.blog ?? {};
 
 const { tags, years } = getPostsMeta();
 

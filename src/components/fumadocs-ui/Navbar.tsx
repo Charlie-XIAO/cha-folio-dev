@@ -23,6 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../shadcn-ui/DropdownMenu";
+import { ScrollArea } from "../shadcn-ui/ScrollArea";
 
 const navItemVariants = cva(
   "inline-flex items-center gap-1 px-2 py-1 text-fd-muted-foreground transition-colors hover:text-fd-accent-foreground data-[active=true]:text-fd-primary [&_svg]:size-4",
@@ -78,9 +79,10 @@ export function NavbarMenuContent({
       align="start"
       onCloseAutoFocus={(e) => e.preventDefault()}
       {...props}
-      className={cn("hidden sm:flex sm:flex-col bg-fd-background", className)}
+      className={cn("hidden sm:flex flex-col p-2 bg-fd-background", className)}
+      asChild
     >
-      {children}
+      <ScrollArea className="max-h-[60vh] max-w-[30vw]">{children}</ScrollArea>
     </DropdownMenuContent>
   );
 }
@@ -95,7 +97,7 @@ export function NavbarMenuTrigger({
       {...props}
       className={cn(
         navItemVariants(),
-        "group rounded-md cursor-pointer",
+        "group rounded-md cursor-pointer data-[state=open]:text-fd-accent-foreground",
         className,
       )}
     >
@@ -111,7 +113,7 @@ export function NavbarMenuLink({ className, children, ...props }: LinkProps) {
       <Link
         {...props}
         className={cn(
-          "flex gap-2 px-3! cursor-pointer bg-fd-card text-fd-muted-foreground transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground",
+          "flex flex-wrap px-3! cursor-pointer bg-fd-card text-fd-muted-foreground transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground",
           className,
         )}
       >

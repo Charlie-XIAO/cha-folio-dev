@@ -1,6 +1,9 @@
 import { Link } from "fumadocs-core/framework";
 import { defineChaFolioConfig } from "./types";
 import { ChaImage } from "./components/ChaImage";
+import { LuBookOpen, LuFileText, LuFolderOpen, LuRss } from "react-icons/lu";
+import { RiGitRepositoryLine } from "react-icons/ri";
+import { FaBlog } from "react-icons/fa6";
 
 export default defineChaFolioConfig({
   name: "cha-folio",
@@ -58,17 +61,91 @@ export default defineChaFolioConfig({
     lang: "en",
     loading: "lazy",
   },
+  layout: {
+    githubUrl: "https://github.com/Charlie-XIAO/cha-folio",
+    nav: {
+      title: (
+        <>
+          <ChaImage
+            image={{
+              light: "/images/logo-light.png",
+              dark: "/images/logo-dark.png",
+            }}
+            width={30}
+            height={30}
+            className="rounded-full"
+          />
+          <span>cha-folio</span>
+        </>
+      ),
+    },
+    links: [
+      {
+        icon: <FaBlog />,
+        text: "Blog",
+        url: "/blog",
+        active: "nested-url",
+      },
+      {
+        icon: <LuFolderOpen />,
+        text: "Projects",
+        url: "/projects",
+        active: "nested-url",
+      },
+      {
+        icon: <LuBookOpen />,
+        text: "Publications",
+        url: "/publications",
+        active: "nested-url",
+      },
+      {
+        icon: <RiGitRepositoryLine />,
+        text: "Repositories",
+        url: "/repositories",
+        active: "nested-url",
+      },
+      {
+        text: "More",
+        type: "menu",
+        items: [
+          {
+            icon: <RiGitRepositoryLine />,
+            text: "Repositories",
+            url: "/repositories",
+            active: "nested-url",
+          },
+          {
+            icon: <LuFileText />,
+            text: "CV",
+            url: "/pdf/blank.pdf",
+          },
+        ],
+      },
+      {
+        type: "icon",
+        icon: <LuRss />,
+        text: "RSS",
+        url: "/api/feed.xml",
+        active: "url",
+      },
+    ],
+    themeSwitch: {
+      mode: "light-dark",
+    },
+  },
   pages: {
     home: {
       description: "A Fumadocs theme for portfolio websites",
       image: "/images/profile.jpg",
     },
     news: {},
-    posts: {
+    blog: {
       title: "cha-folio",
       description: "A Fumadocs theme for portfolio websites",
     },
-    projects: {},
+    projects: {
+      groupByCategories: ["Documentation", "Tests"],
+    },
     publications: {
       description: (
         <>

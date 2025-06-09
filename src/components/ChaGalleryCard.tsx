@@ -13,10 +13,13 @@ export function ChaGalleryCard({
   url,
 }: ChaGalleryCardProps) {
   return (
-    <div className="rounded-md border bg-fd-background/80 shadow-md transition-colors hover:bg-fd-accent/80 overflow-hidden">
-      <Link href={href ?? url} className="block w-full">
+    <div className="h-full w-full p-2">
+      <Link
+        href={href ?? url}
+        className="block h-full w-full rounded-md border bg-fd-background/80 shadow-md transition-colors hover:bg-fd-accent/80 overflow-hidden"
+      >
         {image && (
-          <div className="w-full h-36 bg-gray-100">
+          <div className="w-full h-36">
             <ChaImage
               image={image}
               width={600}

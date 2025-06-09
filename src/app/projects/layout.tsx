@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
-import { baseOptions } from "@/app/layout.config";
 import { projectsSource } from "@/lib/source";
-import { ChaDocsLayout } from "@/components/ChaDocsLayout";
+import { DocsLayout } from "@/components/fumadocs-ui/DocsLayout";
+import config from "@/cha-folio.config";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <ChaDocsLayout {...baseOptions} tree={projectsSource.pageTree}>
+    <DocsLayout {...config.layout} tree={projectsSource.pageTree}>
       {children}
-    </ChaDocsLayout>
+    </DocsLayout>
   );
 }

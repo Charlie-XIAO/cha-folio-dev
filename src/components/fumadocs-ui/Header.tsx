@@ -222,7 +222,7 @@ function NavbarLinkItem({
     });
 
     return (
-      <NavbarMenu>
+      <NavbarMenu modal={false}>
         <NavbarMenuTrigger {...props}>
           {item.url ? <Link href={item.url}>{item.text}</Link> : item.text}
         </NavbarMenuTrigger>

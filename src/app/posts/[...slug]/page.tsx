@@ -28,6 +28,7 @@ export default async function Page(props: {
     <DocsPage
       toc={page.data.toc}
       full={page.data.full}
+      breadcrumb={{ enabled: false }}
       footer={{ component: <ChaFooter type="docs" /> }}
       lastUpdate={page.data.lastModified}
       article={{ className: "gap-2" }}
