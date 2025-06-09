@@ -40,7 +40,7 @@
     "reading-time": "^1.5.0",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
-    "shiki": "^3.4.2",
+    "shiki": "^3.6.0",
     "zod": "^3.25.49"
   },
   "devDependencies": {
@@ -51,7 +51,7 @@
     "@types/react-dom": "^19.1.5",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0",
-    "oxlint": "^0.17.0",
+    "oxlint": "^0.18.1",
     "postcss": "^8.5.4",
     "prettier": "^3.5.3",
     "serve": "^14.2.4",
