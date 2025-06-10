@@ -8,15 +8,27 @@ export interface ChaImageProps extends Omit<ImageProps, "src" | "alt"> {
   zoomable?: boolean;
 }
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+function getImageSrc(src: string) {
+  return src.startsWith("/") ? `${BASE_PATH}${src}` : src;
+}
+
 export function ChaImage({ image, zoomable = false, ...props }: ChaImageProps) {
   const ImageComponent = zoomable ? ImageZoom : Image;
 
   if (typeof image === "string") {
-    return <ImageComponent src={image} alt="" {...props} />;
+    return <ImageComponent src={getImageSrc(image)} alt="" {...props} />;
   }
 
   if ("src" in image) {
-    return <ImageComponent src={image.src} alt={image.alt ?? ""} {...props} />;
+    return (
+      <ImageComponent
+        src={getImageSrc(image.src)}
+        alt={image.alt ?? ""}
+        {...props}
+      />
+    );
   }
 
   if ("light" in image && "dark" in image) {
@@ -24,13 +36,13 @@ export function ChaImage({ image, zoomable = false, ...props }: ChaImageProps) {
     return (
       <>
         <ImageComponent
-          src={image.light}
+          src={getImageSrc(image.light)}
           alt={image.alt ?? ""}
           className={cn("block dark:hidden", className)}
           {...restProps}
         />
         <ImageComponent
-          src={image.dark}
+          src={getImageSrc(image.dark)}
           alt={image.alt ?? ""}
           className={cn("hidden dark:block", className)}
           {...restProps}
