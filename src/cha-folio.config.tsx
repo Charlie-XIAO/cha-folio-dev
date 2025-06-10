@@ -4,6 +4,7 @@ import { ChaImage } from "./components/ChaImage";
 import { LuBookOpen, LuFileText, LuFolderOpen, LuRss } from "react-icons/lu";
 import { RiGitRepositoryLine } from "react-icons/ri";
 import { FaBlog } from "react-icons/fa6";
+import { BASE_PATH } from "./consts";
 
 export default defineChaFolioConfig({
   name: "cha-folio",
@@ -37,12 +38,12 @@ export default defineChaFolioConfig({
         {
           media: "(perfer-color-scheme: light)",
           type: "image/png",
-          url: "/images/logo-light.png",
+          url: `${BASE_PATH}/images/logo-light.png`,
         },
         {
           media: "(prefers-color-scheme: dark)",
           type: "image/png",
-          url: "/images/logo-dark.png",
+          url: `${BASE_PATH}/images/logo-dark.png`,
         },
       ],
     },

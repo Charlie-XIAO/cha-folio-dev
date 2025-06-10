@@ -1,3 +1,4 @@
+import { BASE_PATH } from "@/consts";
 import { ChaImageDef } from "@/types";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { cn } from "fumadocs-ui/utils/cn";
@@ -7,8 +8,6 @@ export interface ChaImageProps extends Omit<ImageProps, "src" | "alt"> {
   image: ChaImageDef;
   zoomable?: boolean;
 }
-
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 function getImageSrc(src: string) {
   return src.startsWith("/") ? `${BASE_PATH}${src}` : src;
