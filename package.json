@@ -29,7 +29,7 @@
     "dompurify": "^3.2.6",
     "feed": "^5.1.0",
     "fumadocs-core": "^15.7.1",
-    "fumadocs-mdx": "^11.8.0",
+    "fumadocs-mdx": "^11.9.0",
     "fumadocs-ui": "^15.7.1",
     "katex": "^0.16.22",
     "next": "^15.5.0",
@@ -40,7 +40,7 @@
     "reading-time": "^1.5.0",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
-    "shiki": "^3.11.0",
+    "shiki": "^3.12.2",
     "zod": "^4.1.0"
   },
   "devDependencies": {
@@ -51,7 +51,7 @@
     "@types/react-dom": "^19.1.7",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
-    "oxlint": "^1.12.0",
+    "oxlint": "^1.14.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "serve": "^14.2.4",
