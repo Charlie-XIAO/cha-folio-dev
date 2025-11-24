@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 # Needed for last updated time
 
@@ -32,7 +32,7 @@ jobs:
           version: 10
 
       - name: Node setup and cache
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: lts/*
           cache: pnpm
@@ -59,7 +59,7 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.configure-pages.outputs.base_path }}
 
       - name: Upload build artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./dist
 
